@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>雅思听力高频词汇 · 发音练习网站</title>
+<style>
+:root{
+  --bg:#0b1020;--panel:#121a30;--panel2:#16203a;--text:#eef3ff;--muted:#9eb0d1;--line:rgba(255,255,255,.08);
+  --accent:#7cc4ff;--accent2:#8bffcc;--warning:#ffd66e;--danger:#ff8ea1;--shadow:0 10px 30px rgba(0,0,0,.25);--radius:18px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:
+radial-gradient(circle at top right,rgba(124,196,255,.12),transparent 25%),
+radial-gradient(circle at top left,rgba(139,255,204,.10),transparent 20%),var(--bg);color:var(--text)}
+.wrap{max-width:1380px;margin:0 auto;padding:24px}
+.hero{display:grid;gap:16px;margin-bottom:20px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12px;color:var(--accent2);background:rgba(139,255,204,.08);border:1px solid rgba(139,255,204,.16)}
+.title{font-size:clamp(28px,4vw,44px);font-weight:800}
+.subtitle{color:var(--muted);line-height:1.7;max-width:980px}
+.panel{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.toolbar{display:grid;grid-template-columns:1.25fr .78fr .9fr;gap:12px;margin-bottom:18px}
+.box{padding:14px 16px}
+.label{font-size:13px;color:var(--muted);margin-bottom:8px}
+.searchInput,.select,.tinyInput{width:100%;background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px;outline:none}
+.actionRow{display:flex;flex-wrap:wrap;gap:10px}
+.btn{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:12px;padding:10px 14px;cursor:pointer;font-size:14px;transition:.15s ease}
+.btn:hover{transform:translateY(-1px);background:rgba(124,196,255,.12)}
+.btn.primary{background:rgba(124,196,255,.16)}
+.btn.warn{background:rgba(255,214,110,.12)}
+.btn.danger{background:rgba(255,142,161,.10)}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:18px;align-items:start}
+.sidebar{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;padding:16px}
+.sidebar h3{margin:0 0 12px;font-size:16px}
+.navGroup{margin-bottom:18px}
+.navPart{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent2);margin:0 0 8px}
+.navLink{display:block;padding:8px 10px;margin-bottom:6px;text-decoration:none;color:var(--muted);border-radius:10px;border:1px solid transparent;transition:.15s ease;font-size:14px}
+.navLink:hover{background:rgba(255,255,255,.04);color:var(--text);border-color:var(--line)}
+.content{display:grid;gap:18px}
+.section{padding:18px}
+.sectionHead{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sectionTitle{margin:0;font-size:24px}
+.sectionMeta{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{padding:14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);display:grid;gap:10px;min-height:150px}
+.termRow{display:flex;gap:10px;align-items:start;justify-content:space-between}
+.term{font-size:18px;font-weight:700;line-height:1.3}
+.ipa{font-size:13px;color:var(--accent);word-break:break-word;min-height:18px}
+.meaning{color:#dbe6ff;line-height:1.55;font-size:15px}
+.cardActions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.iconBtn{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:12px;min-width:42px;height:42px;cursor:pointer;transition:.15s ease;font-size:17px}
+.iconBtn:hover{transform:translateY(-1px);background:rgba(124,196,255,.16)}
+.iconBtn.active{background:rgba(255,214,110,.16);border-color:rgba(255,214,110,.28)}
+.smallTag{display:inline-flex;align-items:center;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{padding:14px 16px}
+.statNum{font-size:24px;font-weight:800}
+.statLabel{font-size:13px;color:var(--muted)}
+.notice{padding:12px 14px;color:var(--muted);font-size:13px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.quiz{padding:16px}
+.mobileSticky{position:sticky;top:0;z-index:20}
+.progressSection{padding:16px}
+.progressTrack{height:12px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+.progressFill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.progressText{margin-top:8px;color:var(--muted);font-size:13px}
+.dictationInput{width:100%;background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:18px;outline:none}
+.resultGood{color:var(--accent2);font-weight:700}
+.resultBad{color:var(--danger);font-weight:700}
+.listBlock{display:grid;gap:10px}
+.errorItem{padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.errorTop{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.errorWord{font-weight:800}
+.pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media (max-width:620px){.wrap{padding:14px}.box{padding:12px}.section{padding:14px}.title{line-height:1.15}.term{font-size:17px}.playingBar{bottom:6px}}
+
+.quiz h3{margin:0 0 10px}
+.quizCard{display:grid;gap:12px}
+.quizWord{font-size:28px;font-weight:800}
+.quizOptions{display:grid;gap:8px}
+.quizOption{text-align:left}
+.muted{color:var(--muted)}
+.hiddenCn .meaning{display:none}
+.hiddenIpa .ipa{display:none}
+.playingBar{position:sticky;bottom:10px;z-index:10;padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;background:rgba(18,26,48,.92);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-top:14px}
+.playingBar.show{display:flex}
+.progressOuter{height:8px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;flex:1}
+.progressInner{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+
+.select, .tinyInput, .searchInput{appearance:none}
+select option{background:#121a30;color:#eef3ff}
+
+@media (max-width:1100px){.toolbar{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:980px){.layout{grid-template-columns:1fr}.sidebar{position:static;max-height:none}}
+@media (max-width:620px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="badge">IELTS Listening Vocabulary · 美音朗读 · 本地收藏</div>
+    <div class="title">雅思听力高频词汇 · 智能背词训练系统</div>
+    <div class="subtitle">
+      基于雅思听力高频词汇构建的系统化背词网站，支持发音训练、听写、测试与错题复习。现在还新增了：
+      <strong>播放全部</strong>、<strong>收藏</strong>、<strong>已学会</strong>、<strong>随机抽词练习</strong>、
+      <strong>中英显示切换</strong> 和 <strong>本地进度保存</strong>。
+    </div>
+    
+  </div>
+
+  <div class="stats">
+    <div class="panel stat"><div class="statNum" id="statTotal">1025</div><div class="statLabel">总词条</div></div>
+    <div class="panel stat"><div class="statNum" id="statVisible">1025</div><div class="statLabel">当前显示</div></div>
+    <div class="panel stat"><div class="statNum" id="statFav">0</div><div class="statLabel">已收藏</div></div>
+    <div class="panel stat"><div class="statNum" id="statLearned">0</div><div class="statLabel">已学会</div></div>
+    
+  </div>
+
+  <div class="toolbar" style="grid-template-columns:1.2fr .8fr .8fr .8fr .7fr;">
+    <div class="panel box">
+      <div class="label">搜索词汇 / 音标 / 中文释义</div>
+      <input id="searchInput" class="searchInput" placeholder="例如：accommodation / biology / 宿舍 / research" />
+    </div>
+    <div class="panel box">
+      <div class="label">模块筛选</div>
+      <select id="partSelect" class="select">
+        <option value="all">全部模块</option>
+      </select>
+    </div>
+    <div class="panel box">
+      <div class="label">子模块筛选</div>
+      <select id="sectionSelect" class="select">
+        <option value="all">全部子模块</option>
+      </select>
+    </div>
+    <div class="panel box">
+      <div class="label">视图筛选</div>
+      <select id="viewSelect" class="select">
+        <option value="all">全部词条</option>
+        <option value="favorites">只看收藏</option>
+        <option value="learned">只看已学会</option>
+        <option value="unlearned">只看未学会</option>
+      </select>
+    </div>
+    <div class="panel box">
+      <div class="label">发音选择</div>
+      <select id="accentSelect" class="select">
+        <option value="en-US">美音</option>
+        <option value="en-GB">英音</option>
+      </select>
+    </div>
+    
+  </div>
+
+  <div class="toolbar" style="grid-template-columns:1fr 240px;">
+    <div class="panel box">
+      <div class="label">播放次数</div>
+      <input id="repeatInput" class="tinyInput" type="number" min="1" max="10" step="1" value="1" />
+    </div>
+    <div class="panel box">
+      <div class="label">说明</div>
+      
+  </div>
+
+  <div class="toolbar" style="grid-template-columns:1fr;">
+    <div class="panel box">
+      <div class="actionRow">
+        <button id="toggleCnBtn" class="btn">隐藏中文</button>
+        <button id="toggleIpaBtn" class="btn">隐藏音标</button>
+        <button id="playVisibleBtn" class="btn primary">播放当前筛选全部</button>
+        <button id="stopPlayBtn" class="btn danger">停止播放</button>
+        <button id="randomQuizBtn" class="btn warn" style="background:#ffd66e;color:#000;font-weight:700">随机抽词练习</button>
+        <button id="dictationModeBtn" class="btn primary" style="background:#7cc4ff;color:#000;font-weight:700">听写模式</button>
+        <button id="mistakeBookBtn" class="btn">错题本</button>
+        <button id="clearProgressBtn" class="btn">清空本地收藏/进度</button>
+      </div>
+      
+  </div>
+
+  <div class="layout">
+    <aside id="sidebar" class="panel sidebar"></aside>
+    <main class="content">
+      <section id="quizPanel" class="panel quiz" style="display:none;"></section>
+      <section class="panel progressSection">
+        <div class="badge">章节进度</div>
+        <div class="progressTrack"><div id="overallProgressFill" class="progressFill"></div></div>
+        <div id="overallProgressText" class="progressText">已学会 0 / 0</div>
+      </section>
+      <section id="mistakeBookPanel" class="panel quiz" style="display:none;"></section>
+      <div id="content"></div>
+      <div id="playingBar" class="playingBar">
+        <div id="playingText" class="muted">未播放</div>
+        <div class="progressOuter"><div id="progressInner" class="progressInner"></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const DATA = [{"part": "Survival English", "section": "Accommodation", "items": [{"term": "home stay", "ipa": "", "meaning": "家庭寄宿"}, {"term": "host family", "ipa": "", "meaning": "寄宿家庭"}, {"term": "shared accommodation", "ipa": "[əkɒmə'deɪʃ(ə)n]", "meaning": "合租"}, {"term": "university hall", "ipa": "", "meaning": "学校宿舍"}, {"term": "hall of residence", "ipa": "['rezɪd(ə)ns]", "meaning": "学校宿舍"}, {"term": "single room", "ipa": "", "meaning": "单人间"}, {"term": "double bedroom/twin room", "ipa": "", "meaning": "双人间(双人床/两张床)"}, {"term": "surroundings", "ipa": "[sə'raundiŋz]", "meaning": "环境"}, {"term": "community", "ipa": "[kə'mju:niti]", "meaning": "社区"}, {"term": "neighbourhood", "ipa": "['neibəhud]", "meaning": "邻里"}, {"term": "rural areas", "ipa": "['rʊər(ə)l] ['ɛəriəs]", "meaning": "农村"}, {"term": "suburb", "ipa": "['sʌbɜːb]", "meaning": "郊区"}, {"term": "downtown", "ipa": "['daʊntaʊn]", "meaning": "市区"}, {"term": "city centre", "ipa": "['sɪtɪ] ['sentə]", "meaning": "市中心"}, {"term": "flat/ apartment", "ipa": "[flæt] [ə'pɑːtm(ə)nt]", "meaning": "公寓"}, {"term": "dormitory/ dorm", "ipa": "['dɔːmɪt(ə)rɪ]", "meaning": "宿舍"}, {"term": "furniture", "ipa": "['fɜːnɪtʃə]", "meaning": "家具"}, {"term": "furnished", "ipa": "['fɝnɪʃt]", "meaning": "有家具的房子"}, {"term": "entrance hall", "ipa": "['entr(ə)ns]", "meaning": "门厅"}, {"term": "balcony", "ipa": "['bælkənɪ]", "meaning": "阳台"}, {"term": "bedroom", "ipa": "['bedruːm]", "meaning": "卧室"}, {"term": "living room", "ipa": "", "meaning": "起居室"}, {"term": "dining room", "ipa": "", "meaning": "餐厅"}, {"term": "bathroom", "ipa": "['bɑːθruːm]", "meaning": "浴室"}, {"term": "study", "ipa": "['stʌdɪ]", "meaning": "书房"}, {"term": "kitchen", "ipa": "['kɪtʃɪn]", "meaning": "厨房"}, {"term": "shared kitchen", "ipa": "", "meaning": "共用厨房"}, {"term": "garage", "ipa": "['gærɑː(d)ʒ]", "meaning": "车库"}, {"term": "basement", "ipa": "['beɪsm(ə)nt]", "meaning": "地下室"}, {"term": "garden", "ipa": "['gɑːd(ə)n]", "meaning": "花园"}, {"term": "yard", "ipa": "[jɑ:d]", "meaning": "院子"}, {"term": "pet", "ipa": "[pet]", "meaning": "宠物"}, {"term": "vegetarian", "ipa": "[vedʒɪ'teərɪən]", "meaning": "素食主义者"}, {"term": "seafood", "ipa": "['siːfuːd]", "meaning": "海鲜"}, {"term": "parking space", "ipa": "", "meaning": "停车位"}, {"term": "car park", "ipa": "", "meaning": "停车场"}, {"term": "property insurance", "ipa": "", "meaning": "财产保险"}, {"term": "blackout", "ipa": "['blækaʊt]", "meaning": "停电"}, {"term": "emergency/fire gate", "ipa": "[ɪ'mɜːdʒ(ə)nsɪ]", "meaning": "紧急出口"}, {"term": "lift/elevator", "ipa": "[lɪft] ['elɪveɪtə]", "meaning": "升降梯"}, {"term": "water heater", "ipa": "", "meaning": "热水器"}, {"term": "vacuum cleaner", "ipa": "['vækjʊəm] ['kliːnə]", "meaning": "吸尘器"}, {"term": "coffee maker", "ipa": "", "meaning": "咖啡机"}, {"term": "refrigerator/fridge", "ipa": "[rɪ'frɪdʒəreɪtə] [frɪdʒ]", "meaning": "冰箱"}, {"term": "real estate agency", "ipa": "", "meaning": "房屋中介"}, {"term": "property agency", "ipa": "", "meaning": "房屋中介"}, {"term": "landlord/lady", "ipa": "['læn(d)lɔːd] ['leɪdɪ]", "meaning": "房东"}, {"term": "tenant", "ipa": "['tenənt]", "meaning": "房客"}, {"term": "tenancy", "ipa": "['tenənsɪ]", "meaning": "租期"}, {"term": "on lease/for rent", "ipa": "", "meaning": "出租"}, {"term": "deposit", "ipa": "[dɪ'pɒzɪt]", "meaning": "订金、押金"}, {"term": "rent", "ipa": "[rent]", "meaning": "房租"}, {"term": "bill", "ipa": "[bil]", "meaning": "账单"}, {"term": "utilities", "ipa": "[jʊ'tɪləti]", "meaning": "水电煤气等公共设施费"}, {"term": "cheque", "ipa": "[tʃek]", "meaning": "支票 cash [kæʃ] n. 现金"}, {"term": "credit card", "ipa": "", "meaning": "信用卡"}, {"term": "debit card", "ipa": "", "meaning": "借记卡"}, {"term": "money transfer", "ipa": "", "meaning": "转账"}, {"term": "noisy", "ipa": "['nɒɪzɪ]", "meaning": "吵闹的"}, {"term": "humid", "ipa": "['hju:mid]", "meaning": "潮湿的"}, {"term": "laundry room", "ipa": "", "meaning": "洗衣房"}, {"term": "fire place", "ipa": "", "meaning": "壁炉"}, {"term": "carpet", "ipa": "['kɑːpɪt]", "meaning": "地毯"}, {"term": "sheet", "ipa": "[ʃiːt]", "meaning": "被单"}, {"term": "pillow", "ipa": "['pɪləʊ]", "meaning": "枕头"}, {"term": "blanket", "ipa": "['blæŋkɪt]", "meaning": "毯子"}, {"term": "towel", "ipa": "['taʊəl]", "meaning": "毛巾"}, {"term": "coffee table", "ipa": "", "meaning": "茶几"}, {"term": "armchair", "ipa": "[ɑːm'tʃeə]", "meaning": "扶手椅"}, {"term": "sofa", "ipa": "['səʊfə]", "meaning": "沙发"}, {"term": "kettle", "ipa": "['ket(ə)l]", "meaning": "水壶"}, {"term": "tap", "ipa": "[tæp]", "meaning": "水⻰龙头"}, {"term": "sink", "ipa": "[siŋk]", "meaning": "洗碗池"}, {"term": "cupboard", "ipa": "['kʌbəd]", "meaning": "橱柜"}, {"term": "bath", "ipa": "[bɑːθ]", "meaning": "浴缸"}, {"term": "toilet", "ipa": "['tɒɪlɪt]", "meaning": "马桶"}, {"term": "stove", "ipa": "[stəʊv]", "meaning": "炉子"}, {"term": "oven", "ipa": "['ʌv(ə)n]", "meaning": "烤箱"}, {"term": "dishwasher", "ipa": "['dɪʃwɒʃə]", "meaning": "洗碗机"}, {"term": "telephone", "ipa": "['telɪfəʊn]", "meaning": "电话"}, {"term": "washing machine", "ipa": "", "meaning": "洗衣机"}, {"term": "air-conditioner", "ipa": "", "meaning": "空调"}, {"term": "microwave oven", "ipa": "['maɪkrə(ʊ)weɪv]", "meaning": "微波炉"}, {"term": "radiator", "ipa": "['reɪdɪeɪtə]", "meaning": "暖气"}, {"term": "satellite TV", "ipa": "['sætəlait]", "meaning": "卫星电视"}, {"term": "cable TV", "ipa": "['keɪb(ə)l]", "meaning": "有线电视"}, {"term": "digital TV", "ipa": "['didʒitəl]", "meaning": "数字电视"}, {"term": "closed circuit TV", "ipa": "", "meaning": "闭路电视"}, {"term": "decorate", "ipa": "['dekəreɪt]", "meaning": "装饰"}, {"term": "curtain", "ipa": "['kɜːt(ə)n]", "meaning": "窗帘"}]}, {"part": "Survival English", "section": "Traveling & Holiday", "items": [{"term": "itinerary", "ipa": "[aɪ'tɪn(ə)(rə)rɪ; ɪ-]", "meaning": "行程,路线"}, {"term": "expedition", "ipa": "[ekspɪ'dɪʃ(ə)n]", "meaning": "远征"}, {"term": "excursion", "ipa": "[ɪk'skɜːʃ(ə)n; ek-]", "meaning": "短程旅行"}, {"term": "package tour", "ipa": "['pækidʒ tuə]", "meaning": "全包游"}, {"term": "guided tour", "ipa": "['ɡaidid]", "meaning": "有向导的旅行"}, {"term": "backpacker", "ipa": "['bæk,pækɚ]", "meaning": "背包自助旅行的人"}, {"term": "hitch-hike", "ipa": "['hitʃ'haik]", "meaning": "搭便车旅行"}, {"term": "castle", "ipa": "['kɑːs(ə)l]", "meaning": "城堡"}, {"term": "temple", "ipa": "['temp(ə)l]", "meaning": "寺庙"}, {"term": "cathedral", "ipa": "[kə'θ iːdr(ə)l]", "meaning": "大教堂"}, {"term": "museum", "ipa": "[mjuː'zɪəm]", "meaning": "博物馆"}, {"term": "art gallery", "ipa": "", "meaning": "美术馆"}, {"term": "exhibition", "ipa": "[eksɪ'bɪʃ(ə)n]", "meaning": "展览"}, {"term": "sculpture", "ipa": "['skʌlptʃə]", "meaning": "雕塑"}, {"term": "aquarium", "ipa": "[ə'kweərɪəm]", "meaning": "水族馆"}, {"term": "botanical garden", "ipa": "", "meaning": "植物园"}, {"term": "amusement park", "ipa": "", "meaning": "游乐场"}, {"term": "organic farm", "ipa": "", "meaning": "有机农场"}, {"term": "valley", "ipa": "['vælɪ]", "meaning": "峡谷"}, {"term": "waterfall", "ipa": "['wɔːtəfɔːl]", "meaning": "瀑布"}, {"term": "rain forest", "ipa": "", "meaning": "雨林"}, {"term": "hot spring", "ipa": "", "meaning": "温泉"}, {"term": "wild-life zoo", "ipa": "", "meaning": "野生动物园"}, {"term": "beach", "ipa": "[biːtʃ]", "meaning": "海滩"}, {"term": "coast", "ipa": "[kəʊst]", "meaning": "海岸"}, {"term": "national park", "ipa": "", "meaning": "国家公园"}, {"term": "scuba-diving", "ipa": "", "meaning": "器械潜水"}, {"term": "snorkeling", "ipa": "['snɔ:kəliŋ]", "meaning": "浮潜"}, {"term": "water skiing", "ipa": "", "meaning": "划水"}, {"term": "sun block/sun screen", "ipa": "", "meaning": "防晒霜"}, {"term": "sunglasses", "ipa": "['sʌnɡlæsɪz]", "meaning": "太阳镜"}, {"term": "tent", "ipa": "[tent]", "meaning": "帐篷"}, {"term": "picnic", "ipa": "['pɪknɪk]", "meaning": "野餐"}, {"term": "go camping", "ipa": "", "meaning": "宿营"}, {"term": "sleeping bag", "ipa": "", "meaning": "睡袋"}, {"term": "compass", "ipa": "['kʌmpəs]", "meaning": "指南针"}, {"term": "torch/flash light", "ipa": "", "meaning": "手电筒"}, {"term": "insect", "ipa": "['ɪnsekt]", "meaning": "昆虫"}, {"term": "hiking boots", "ipa": "", "meaning": "登山靴"}, {"term": "bungee jumping", "ipa": "", "meaning": "蹦极"}, {"term": "rock climbing", "ipa": "", "meaning": "攀岩"}, {"term": "parachuting", "ipa": "['pærəʃu:tiŋ]", "meaning": "跳伞"}, {"term": "bush walking", "ipa": "", "meaning": "灌丛行走"}, {"term": "hiking", "ipa": "['haikiŋ]", "meaning": "徒步旅行"}, {"term": "surfing", "ipa": "['sɜːfɪŋ]", "meaning": "冲浪"}, {"term": "skiing", "ipa": "['ski:iŋ]", "meaning": "滑雪"}, {"term": "resort", "ipa": "[rɪ'zɔːt]", "meaning": "旅游胜地"}, {"term": "voyage", "ipa": "['vɒɪɪdʒ]", "meaning": "航行"}, {"term": "coach", "ipa": "[kəʊtʃ]", "meaning": "长途公车"}, {"term": "off-road driving", "ipa": "", "meaning": "越野"}, {"term": "four-wheel drive", "ipa": "", "meaning": "四驱车"}, {"term": "express train", "ipa": "", "meaning": "快车"}, {"term": "tram", "ipa": "[træm]", "meaning": "有轨电车"}, {"term": "shuttle", "ipa": "['ʃʌtl]", "meaning": "班车"}, {"term": "taxi/cab", "ipa": "['tæksɪ] [kæb]", "meaning": "出租车"}, {"term": "truck", "ipa": "[trʌk]", "meaning": "卡车"}, {"term": "underground/ subway/tube", "ipa": "", "meaning": "地铁"}, {"term": "ferry", "ipa": "['ferɪ]", "meaning": "渡轮"}, {"term": "cruiser", "ipa": "['kruːzə]", "meaning": "游轮"}, {"term": "wheel", "ipa": "[wiːl]", "meaning": "轮子"}, {"term": "steering wheel", "ipa": "", "meaning": "方向盘"}, {"term": "brake", "ipa": "[breɪk]", "meaning": "刹车"}, {"term": "hotel", "ipa": "[həʊ'tel; əʊ-]", "meaning": "宾馆"}, {"term": "motel", "ipa": "[məʊ'tel]", "meaning": "汽车旅馆"}, {"term": "hostel", "ipa": "['hɒst(ə)l]", "meaning": "青年旅社"}, {"term": "cottage", "ipa": "['kɒtɪdʒ]", "meaning": "小别墅"}, {"term": "inn", "ipa": "[ɪn]", "meaning": "客栈"}, {"term": "B&B", "ipa": "", "meaning": "提供床铺和早餐的旅店"}, {"term": "brochure", "ipa": "['brəʊʃə; brɒ'ʃʊə]", "meaning": "旅游介绍的小册子"}, {"term": "backpack", "ipa": "['bækpæk]", "meaning": "双肩背包"}, {"term": "reservation", "ipa": "[rezə'veɪʃ(ə)n]", "meaning": "预约"}, {"term": "schedule", "ipa": "['ʃedjuːl; 'sked-]", "meaning": "时间表"}, {"term": "vacant seat", "ipa": "", "meaning": "空座"}, {"term": "extra charge", "ipa": "", "meaning": "额外收费"}, {"term": "leisure activity", "ipa": "", "meaning": "休闲活动"}, {"term": "travel agency", "ipa": "", "meaning": "旅行社"}, {"term": "flight number", "ipa": "", "meaning": "航班号"}, {"term": "credit card", "ipa": "", "meaning": "信用卡"}, {"term": "passport", "ipa": "['pɑːspɔːt]", "meaning": "护照"}, {"term": "driving license", "ipa": "", "meaning": "驾照"}, {"term": "expire", "ipa": "[ɪk'spaɪə; ek-]", "meaning": "驾照、护照等)过期"}, {"term": "destination", "ipa": "[,destɪ'neɪʃ(ə)n]", "meaning": "目的地"}, {"term": "flight attendant", "ipa": "", "meaning": "空中乘务员"}, {"term": "steward(ess)", "ipa": "['stjuːəd]", "meaning": "空中乘务员"}, {"term": "take off", "ipa": "", "meaning": "起⻜飞"}, {"term": "land", "ipa": "[lænd]", "meaning": "降落"}, {"term": "arrival/departure", "ipa": "[ə'raɪv(ə)l] [dɪ'pɑːtʃə]", "meaning": "到/出港"}, {"term": "luggage claim", "ipa": "", "meaning": "行李提取处"}, {"term": "customs", "ipa": "['kʌstəmz]", "meaning": "海关"}, {"term": "first class", "ipa": "", "meaning": "头等舱"}, {"term": "souvenir", "ipa": "[,suːvə'nɪə]", "meaning": "纪念品"}, {"term": "platform", "ipa": "['plætfɔːm]", "meaning": "站台"}, {"term": "snack", "ipa": "[snæk]", "meaning": "零食"}, {"term": "refreshment", "ipa": "[rɪ'freʃm(ə)nt]", "meaning": "茶点"}]}, {"part": "Survival English", "section": "Library", "items": [{"term": "loan period", "ipa": "", "meaning": "借书期"}, {"term": "due", "ipa": "[djuː]", "meaning": "到期的"}, {"term": "return", "ipa": "[rɪ'tɜːn]", "meaning": "还书"}, {"term": "extension", "ipa": "[ɪk'stenʃ(ə)n; ek-]", "meaning": "延期"}, {"term": "renew", "ipa": "[rɪ'njuː]", "meaning": "续借"}, {"term": "recall", "ipa": "[rɪ'kɔːl]", "meaning": "召回"}, {"term": "overdue", "ipa": "[əʊvə'djuː]", "meaning": "过期"}, {"term": "fine/ penalty", "ipa": "[faɪn] ['penəlti]", "meaning": "罚款"}, {"term": "date of expiry", "ipa": "", "meaning": "到期日"}, {"term": "fiction/non-fiction", "ipa": "['fɪkʃ(ə)n]", "meaning": "小说类/非小说类"}, {"term": "reference book", "ipa": "", "meaning": "参考书"}, {"term": "encyclopedia", "ipa": "[en,saɪklə(ʊ)'piːdɪə; ɪn-]", "meaning": "百科全书"}, {"term": "biography", "ipa": "[baɪ'ɒgrəfɪ]", "meaning": "人物传记"}, {"term": "reservation list", "ipa": "", "meaning": "预约单"}, {"term": "abstract", "ipa": "['æbstrækt]", "meaning": "摘要"}, {"term": "borrow", "ipa": "['bɒrəʊ]", "meaning": "借用"}, {"term": "lend/ loan", "ipa": "[lend] [ləʊn]", "meaning": "借给"}, {"term": "newspaper", "ipa": "['njuːzpeɪpə; 'njuːs-]", "meaning": "报纸"}, {"term": "journal/ magazine", "ipa": "['dʒɜːn(ə)l] [mægə'ziːn]", "meaning": "杂志"}, {"term": "periodical", "ipa": "[,piəri'ɔdikəl]", "meaning": "期刊"}, {"term": "information desk", "ipa": "", "meaning": "服务台"}, {"term": "current/ back issue", "ipa": "", "meaning": "当期/ 过期刊物"}, {"term": "librarian", "ipa": "[laɪ'breərɪən]", "meaning": "图书馆员"}, {"term": "student card", "ipa": "", "meaning": "学生证"}, {"term": "printer", "ipa": "['prɪntə]", "meaning": "打印机"}, {"term": "copier", "ipa": "['kɒpɪə]", "meaning": "复印机"}, {"term": "software", "ipa": "['sɒf(t)weə]", "meaning": "软件"}, {"term": "internet access", "ipa": "", "meaning": "互联网接入"}, {"term": "laptop", "ipa": "['læptɑp]", "meaning": "笔记本电脑"}]}, {"part": "Survival English", "section": "Sports & Fitness", "items": [{"term": "gym", "ipa": "[dʒɪm]", "meaning": "健身房 体育馆"}, {"term": "stadium", "ipa": "['steɪdɪəm]", "meaning": "体育场"}, {"term": "fitness center", "ipa": "", "meaning": "健身中心"}, {"term": "keep-fit studio", "ipa": "", "meaning": "健身房"}, {"term": "membership", "ipa": "['membəʃɪp]", "meaning": "会员"}, {"term": "tennis", "ipa": "['tenɪs]", "meaning": "网球"}, {"term": "table tennis", "ipa": "", "meaning": "乒乓球"}, {"term": "skiing", "ipa": "['ski:iŋ]", "meaning": "滑雪"}, {"term": "yoga", "ipa": "['jəʊgə]", "meaning": "瑜珈"}, {"term": "cycling", "ipa": "['saikliŋ]", "meaning": "骑自行车"}, {"term": "jogging", "ipa": "['dʒɒgɪŋ]", "meaning": "慢跑"}, {"term": "weight training", "ipa": "", "meaning": "力量性训练"}, {"term": "aerobics", "ipa": "[ɛ'robɪks]", "meaning": "有氧操"}, {"term": "treadmill", "ipa": "['tredmɪl]", "meaning": "跑步机"}, {"term": "rugby", "ipa": "['rʌgbɪ]", "meaning": "橄榄球"}, {"term": "golf", "ipa": "[gɒlf]", "meaning": "高尔夫球"}, {"term": "bowling", "ipa": "['bəʊlɪŋ]", "meaning": "保龄"}, {"term": "pool", "ipa": "[puːl]", "meaning": "台球"}, {"term": "snooker", "ipa": "['snu:kə]", "meaning": "斯诺克"}, {"term": "hockey", "ipa": "['hɒkɪ]", "meaning": "曲棍球"}, {"term": "ice hockey", "ipa": "", "meaning": "冰球"}, {"term": "skating", "ipa": "['skeitiŋ]", "meaning": "滑冰"}, {"term": "roller blade", "ipa": "", "meaning": "单排轮滑"}, {"term": "badminton", "ipa": "['bædmintən]", "meaning": "羽毛球"}, {"term": "baseball", "ipa": "['besbɔl]", "meaning": "棒球"}, {"term": "softball", "ipa": "['sɒf(t)bɔːl]", "meaning": "垒球"}, {"term": "beach volleyball", "ipa": "", "meaning": "沙滩排球"}, {"term": "football", "ipa": "['fʊtbɔːl]", "meaning": "足球"}, {"term": "martial art", "ipa": "", "meaning": "武术"}, {"term": "wrestling", "ipa": "['reslɪŋ]", "meaning": "摔交"}, {"term": "judo", "ipa": "['dʒu:dəu]", "meaning": "柔道"}, {"term": "karate", "ipa": "[kə'rɑ:te]", "meaning": "空手道"}, {"term": "boxing", "ipa": "['bɒksɪŋ]", "meaning": "拳击"}, {"term": "canoeing", "ipa": "[kə'nuɪŋ]", "meaning": "独木舟"}, {"term": "track and field", "ipa": "", "meaning": "田径"}, {"term": "tournament", "ipa": "['tʊənəm(ə)nt]", "meaning": "联赛"}, {"term": "athlete", "ipa": "['æθ liːt]", "meaning": "运动员"}, {"term": "referee", "ipa": "[refə'riː]", "meaning": "裁判"}, {"term": "coach", "ipa": "[kəʊtʃ]", "meaning": "教练"}, {"term": "cheer leader", "ipa": "", "meaning": "拉队员"}]}, {"part": "Survival English", "section": "Bank", "items": [{"term": "cash", "ipa": "[kæʃ]", "meaning": "现金"}, {"term": "currency", "ipa": "['kʌr(ə)nsɪ]", "meaning": "流通货币"}, {"term": "bill/note", "ipa": "[bɪl] [nəʊt]", "meaning": "纸币"}, {"term": "coin", "ipa": "[kɒɪn]", "meaning": "硬币"}, {"term": "cheque", "ipa": "[tʃek]", "meaning": "支票"}, {"term": "chequebook", "ipa": "['tʃekbuk]", "meaning": "支票"}, {"term": "traveller’s cheque", "ipa": "", "meaning": "旅行支票"}, {"term": "credit card", "ipa": "", "meaning": "信用卡"}, {"term": "Master Card", "ipa": "", "meaning": "万事达卡"}, {"term": "Visa Card", "ipa": "", "meaning": "维萨卡"}, {"term": "account", "ipa": "[ə'kaʊnt]", "meaning": "帐户"}, {"term": "current account", "ipa": "", "meaning": "活期账户"}, {"term": "deposit account", "ipa": "", "meaning": "定期账户"}, {"term": "joint account", "ipa": "", "meaning": "联名账户"}, {"term": "PIN", "ipa": "", "meaning": "密码"}, {"term": "activate", "ipa": "['æktɪveɪt]", "meaning": "激活"}, {"term": "deposit", "ipa": "[dɪ'pɒzɪt]", "meaning": "存"}, {"term": "withdraw", "ipa": "[wɪ›'drɔː]", "meaning": "取"}, {"term": "bank statement", "ipa": "", "meaning": "银行对帐单"}, {"term": "interest", "ipa": "['intrist, 'intər-]", "meaning": "利息"}, {"term": "interest rate", "ipa": "", "meaning": "利率"}, {"term": "ATM", "ipa": "", "meaning": "自动取款机"}, {"term": "overdraft", "ipa": "['əʊvədrɑːft]", "meaning": "透支"}, {"term": "mortgage", "ipa": "['mɔːgɪdʒ]", "meaning": "抵押贷款"}, {"term": "branch", "ipa": "[brɑːn(t)ʃ]", "meaning": "分支"}, {"term": "eligible", "ipa": "['elɪdʒɪb(ə)l]", "meaning": "合格的"}, {"term": "documentation", "ipa": "[,dɒkjʊmen'teɪʃ(ə)n]", "meaning": "文件"}, {"term": "loan", "ipa": "[ləun]", "meaning": "贷款"}, {"term": "transfer", "ipa": "[træns'fə:]", "meaning": "转帐"}]}, {"part": "Survival English", "section": "Catering", "items": [{"term": "dining hall", "ipa": "", "meaning": "餐厅"}, {"term": "barbecue", "ipa": "['bɑːbɪkjuː]", "meaning": "烧烤"}, {"term": "snack bar", "ipa": "", "meaning": "零食店"}, {"term": "salad bar", "ipa": "", "meaning": "沙拉吧"}, {"term": "vending machine", "ipa": "", "meaning": "自动售货机"}, {"term": "spicy/hot", "ipa": "['spaɪsɪ] [hɒt]", "meaning": "辣"}, {"term": "chilli", "ipa": "['tʃɪlɪ]", "meaning": "辣椒"}, {"term": "sweet", "ipa": "[swiːt]", "meaning": "甜"}, {"term": "sour", "ipa": "[saʊə]", "meaning": "酸"}, {"term": "bitter", "ipa": "['bɪtə]", "meaning": "苦"}, {"term": "salty", "ipa": "['sɔːltɪ; 'sɒ-]", "meaning": "咸"}, {"term": "no cheese product", "ipa": "", "meaning": "非奶酪制品"}, {"term": "no red meat", "ipa": "", "meaning": "不吃红肉"}, {"term": "garden salad", "ipa": "", "meaning": "蔬菜沙拉"}, {"term": "fish & chips", "ipa": "", "meaning": "炸⻥鱼派和土豆条"}, {"term": "pork", "ipa": "[pɔːk]", "meaning": "猪肉"}, {"term": "steak", "ipa": "[steɪk]", "meaning": "牛排"}, {"term": "sandwich", "ipa": "['sæn(d)wɪdʒ; -wɪtʃ]", "meaning": "三明治"}, {"term": "appetizer", "ipa": "['æpɪtaɪzə]", "meaning": "开胃菜"}, {"term": "main course", "ipa": "", "meaning": "主菜 dessert [dɪ'zɜːt]甜点"}, {"term": "beverage", "ipa": "['bev(ə)rɪdʒ]", "meaning": "饮料"}, {"term": "vegetarian", "ipa": "[vedʒɪ'teərɪən]", "meaning": "素食的"}, {"term": "seafood", "ipa": "['siːfuːd]", "meaning": "海鲜"}]}, {"part": "Survival English", "section": "Recreation", "items": [{"term": "circus", "ipa": "['sɜːkəs]", "meaning": "马戏"}, {"term": "acrobatics", "ipa": "[ækrə'bætɪks]", "meaning": "杂技"}, {"term": "magic/trick", "ipa": "['mædʒɪk] [trɪk]", "meaning": "魔术"}, {"term": "ballet", "ipa": "['bæleɪ; -lɪ]", "meaning": "芭蕾"}, {"term": "opera", "ipa": "['ɒp(ə)rə]", "meaning": "歌剧"}, {"term": "opera house", "ipa": "", "meaning": "歌剧院"}, {"term": "concert", "ipa": "['kɒnsət]", "meaning": "音乐会"}, {"term": "mime", "ipa": "[maɪm]", "meaning": "哑剧"}, {"term": "7-screen cinema", "ipa": "", "meaning": "能放映七部电影的电影院"}, {"term": "theatre", "ipa": "['θ iətə, 'θ i:ə-]", "meaning": "剧院"}, {"term": "guitar", "ipa": "[ɡi'tɑ:]", "meaning": "吉他"}, {"term": "piano", "ipa": "[pɪ'ænəʊ]", "meaning": "钢琴"}, {"term": "pianist", "ipa": "['pɪənɪst]", "meaning": "钢琴家"}, {"term": "violin", "ipa": "[,vaiə'lin]", "meaning": "小提琴"}, {"term": "singer", "ipa": "['siŋə]", "meaning": "歌手"}, {"term": "puppet", "ipa": "['pʌpɪt]", "meaning": "木偶"}, {"term": "release", "ipa": "[rɪ'liːs]", "meaning": "发行"}, {"term": "blockbuster", "ipa": "['blɒkbʌstə]", "meaning": "大片"}, {"term": "comedy", "ipa": "['kɒmɪdɪ]", "meaning": "喜剧"}, {"term": "comedian", "ipa": "[kə'miːdɪən]", "meaning": "喜剧演员"}, {"term": "drama", "ipa": "['drɑːmə]", "meaning": "戏剧"}, {"term": "sci-fi", "ipa": "['sai'fai]", "meaning": "科幻片"}, {"term": "cartoon", "ipa": "[kɑː'tuːn]", "meaning": "动画片"}, {"term": "documentary", "ipa": "[dɒkjʊ'ment(ə)rɪ]", "meaning": "记录片"}, {"term": "thriller", "ipa": "['θ rilə]", "meaning": "惊竦片"}, {"term": "country music", "ipa": "", "meaning": "乡村音乐"}, {"term": "classic music", "ipa": "", "meaning": "古典音乐"}, {"term": "jazz", "ipa": "[dʒæz]", "meaning": "爵士乐"}, {"term": "pop", "ipa": "[pɒp]", "meaning": "流行音乐"}, {"term": "rock", "ipa": "[rɒk]", "meaning": "摇滚乐"}]}, {"part": "Survival English", "section": "Job Hunting", "items": [{"term": "vacant position", "ipa": "", "meaning": "空缺职位"}, {"term": "vacancy", "ipa": "['veɪk(ə)nsɪ]", "meaning": "空缺职位"}, {"term": "applicant", "ipa": "['æplɪk(ə)nt]", "meaning": "申请人"}, {"term": "curriculum vitae (CV)", "ipa": "", "meaning": "个人简历"}, {"term": "resume", "ipa": "[rɪ'zjuːm]", "meaning": "简历"}, {"term": "academic background", "ipa": "", "meaning": "学术背景"}, {"term": "experience", "ipa": "[ɪk'spɪərɪəns; ek-]", "meaning": "经验"}, {"term": "skill", "ipa": "[skɪl]", "meaning": "技能"}, {"term": "personality", "ipa": "[pɜːsə'nælɪtɪ]", "meaning": "性格"}, {"term": "certificate", "ipa": "[sə'tɪfɪkət]", "meaning": "证书"}, {"term": "qualification", "ipa": "[,kwɒlɪfɪ'keɪʃ(ə)n]", "meaning": "资格证"}, {"term": "uniform", "ipa": "['juːnɪfɔːm]", "meaning": "制服"}, {"term": "interview", "ipa": "['ɪntəvjuː]", "meaning": "面试"}, {"term": "interviewer", "ipa": "['ɪntɚvjuɚ]", "meaning": "面试官"}, {"term": "interviewee", "ipa": "[,ɪntɚvju'i]", "meaning": "面试者"}, {"term": "personnel manager", "ipa": "", "meaning": "人事经理"}, {"term": "full-time job", "ipa": "", "meaning": "全职工作"}, {"term": "part-time job", "ipa": "", "meaning": "兼职工作"}, {"term": "occupation", "ipa": "[ɒkjʊ'peɪʃ(ə)n]", "meaning": "职业"}, {"term": "assistant", "ipa": "[ə'sɪst(ə)nt]", "meaning": "助理"}, {"term": "salesman", "ipa": "['seɪlzmən]", "meaning": "推销员"}, {"term": "clerk", "ipa": "[klɑːk]", "meaning": "办公文员"}, {"term": "waiter/ waitress", "ipa": "['weɪtə] ['weɪtrɪs]", "meaning": "服务员"}, {"term": "cleaner", "ipa": "['kliːnə]", "meaning": "清洁工"}, {"term": "receptionist", "ipa": "[rɪ'sepʃ(ə)nɪst]", "meaning": "前台接待"}, {"term": "librarian", "ipa": "[laɪ'breərɪən]", "meaning": "图书管理员"}, {"term": "designer", "ipa": "[dɪ'zaɪnə]", "meaning": "设计师"}, {"term": "accountant", "ipa": "[ə'kaʊnt(ə)nt]", "meaning": "会计"}, {"term": "engineer", "ipa": "[endʒɪ'nɪə]", "meaning": "工程师"}, {"term": "doctor", "ipa": "['dɒktə]", "meaning": "医生"}, {"term": "dentist", "ipa": "['dentɪst]", "meaning": "牙医"}, {"term": "actor/actress", "ipa": "['æktə] ['æktrɪs]", "meaning": "演员"}, {"term": "general manager", "ipa": "", "meaning": "总经理"}, {"term": "supervisor", "ipa": "['suːpəvaɪzə; 'sjuː]", "meaning": "主管"}, {"term": "commission", "ipa": "[kə'miʃən]", "meaning": "佣金"}, {"term": "day shift", "ipa": "", "meaning": "白班 / night shift 夜班"}, {"term": "shift", "ipa": "[ʃift]", "meaning": "倒班"}, {"term": "day off", "ipa": "", "meaning": "休班"}, {"term": "vacation", "ipa": "[və'keɪʃ(ə)n; veɪ-]", "meaning": "假期"}, {"term": "weekday", "ipa": "['wiːkdeɪ]", "meaning": "工作日"}, {"term": "weekend", "ipa": "[wiːk'end; 'wiː-]", "meaning": "周"}, {"term": "pension", "ipa": "['penʃ(ə)n]", "meaning": "退休金"}, {"term": "salary", "ipa": "['sælərɪ]", "meaning": "薪水"}, {"term": "tax", "ipa": "[tæks]", "meaning": "税"}, {"term": "insurance", "ipa": "[ɪn'ʃʊər(ə)ns]", "meaning": "保险"}, {"term": "promotion", "ipa": "[prə'məʊʃn]", "meaning": "晋升"}, {"term": "challenging", "ipa": "['tʃælɪndʒɪŋ]", "meaning": "富有挑战的"}]}, {"part": "Academic English", "section": "Course/Coursework /Assessment", "items": [{"term": "attendance", "ipa": "[ə'tend(ə)ns]", "meaning": "出勤"}, {"term": "report", "ipa": "[rɪ'pɔːt]", "meaning": "报告"}, {"term": "reference", "ipa": "['ref(ə)r(ə)ns]", "meaning": "参考书目"}, {"term": "bibliography", "ipa": "[,bɪblɪ'ɒgrəfɪ]", "meaning": "参考书目"}, {"term": "plagiarism", "ipa": "['pleɪdʒərɪz(ə)m]", "meaning": "剽窃 抄袭"}, {"term": "cheat", "ipa": "[tʃiːt]", "meaning": "作弊"}, {"term": "high distinction", "ipa": "[dɪ'stɪŋ(k)ʃ(ə)n]", "meaning": "优异"}, {"term": "distinction", "ipa": "[dɪ'stɪŋ(k)ʃ(ə)n]", "meaning": "良好"}, {"term": "credit", "ipa": "['kredɪt]", "meaning": "合格"}, {"term": "pass", "ipa": "[pɑːs]", "meaning": "及格"}, {"term": "fail", "ipa": "[feɪl]", "meaning": "不及格"}, {"term": "final-examination", "ipa": "['faɪn(ə)l] [ɪg,zæmɪ'neɪʃ(ə)n]", "meaning": "期末考核"}, {"term": "quiz", "ipa": "[kwɪz]", "meaning": "小测验"}, {"term": "oral test", "ipa": "['ɔːr(ə)l] [test]", "meaning": "口试"}, {"term": "drop out", "ipa": "[drɒp]", "meaning": "辍学"}, {"term": "curriculum", "ipa": "[kʌ'rɪkjʊləm]", "meaning": "课程"}, {"term": "enrollment", "ipa": "[ɪn'rəʊlmənt]", "meaning": "注册"}, {"term": "register", "ipa": "['redʒɪstə]", "meaning": "注册"}, {"term": "enroll", "ipa": "[ɪn'rol]", "meaning": "报到"}, {"term": "opening ceremony", "ipa": "['serɪmənɪ]", "meaning": "开学典礼"}, {"term": "orientation", "ipa": "[,ɔːrɪən'teɪʃ(ə)n]", "meaning": "新生学校情况介绍"}, {"term": "application form", "ipa": "[ˌæplɪ'keɪʃ(ə)n, fɔːm]", "meaning": "申请表"}, {"term": "letter of recommendation", "ipa": "['letə]", "meaning": ""}, {"term": "credit /point", "ipa": "['kredɪt] [pɒɪnt]", "meaning": "学分"}, {"term": "mark / score / grade", "ipa": "[mɑːk] [skɔː] [greɪd]", "meaning": "分数,成绩"}, {"term": "assessment", "ipa": "[ə'sesmənt]", "meaning": "对学生的学习情况进行评估"}, {"term": "handout", "ipa": "['hændaʊt]", "meaning": "分发的印刷品"}, {"term": "assignment", "ipa": "[ə'saɪnm(ə)nt]", "meaning": "作业"}, {"term": "presentation", "ipa": "[prez(ə)n'teɪʃ(ə)n]", "meaning": "专题发言"}, {"term": "project", "ipa": "['prɒdʒekt]", "meaning": "课外课题"}, {"term": "report", "ipa": "[rɪ'pɔːt]", "meaning": "报告"}, {"term": "paper / thesis / dissertation", "ipa": "['peɪpə] ['θiːsɪs]", "meaning": ""}, {"term": "essay", "ipa": "['eseɪ]", "meaning": "短论文"}, {"term": "draft", "ipa": "[drɑːft]", "meaning": "草稿"}, {"term": "bibliography", "ipa": "[,bɪblɪ'ɒgrəfɪ]", "meaning": "参考文献"}, {"term": "defense", "ipa": "[dɪ'fɛns]", "meaning": "答辩"}, {"term": "deadline", "ipa": "['dedlaɪn]", "meaning": "截止时期"}, {"term": "extension", "ipa": "[ɪk'stenʃ(ə)n; ek-]", "meaning": "延期"}, {"term": "participation", "ipa": "[pɑr,tɪsɪ'peʃən]", "meaning": "课堂参与"}, {"term": "tutorial", "ipa": "[tjuː'tɔːrɪəl]", "meaning": "个别辅导课"}]}, {"part": "Academic English", "section": "Schools / Staff /Facilities", "items": [{"term": "primary education", "ipa": "['praɪm(ə)rɪ] [edjʊ'keɪʃ(ə)n]", "meaning": "基础教育"}, {"term": "secondary education", "ipa": "['sek(ə)nd(ə)rɪ]", "meaning": "中等教育"}, {"term": "higher education", "ipa": "['haɪɚ]", "meaning": "高等教育"}, {"term": "arts", "ipa": "[a:ts]", "meaning": "文科"}, {"term": "science", "ipa": "['saɪəns]", "meaning": "理科"}, {"term": "freshman", "ipa": "['freʃmən]", "meaning": "大学一年级学生"}, {"term": "sophomore", "ipa": "['sɒfəmɔː]", "meaning": "大学二年级学生"}, {"term": "junior", "ipa": "['dʒuːnɪə]", "meaning": "大学三年级学生"}, {"term": "senior", "ipa": "['siːnɪə]", "meaning": "大学四年级学生"}, {"term": "auditorium", "ipa": "[ɔːdɪ'tɔːrɪəm]", "meaning": "大礼堂"}, {"term": "tertiary education", "ipa": "['tɜːʃ(ə)rɪ]", "meaning": "高等教育"}, {"term": "preparatory year", "ipa": "[prɪ'pærət(ə)rɪ]", "meaning": "预科"}, {"term": "adult education", "ipa": "['ædʌlt; ə'dʌlt]", "meaning": "成人教育"}, {"term": "kindergarten / day-care", "ipa": "['kɪndə,gɑːt(ə)n]", "meaning": ""}, {"term": "center", "ipa": "['deikεə] ['sɛntɚ]", "meaning": "幼儿园"}, {"term": "nursery school", "ipa": "['nɜːs(ə)rɪ] [skuːl]", "meaning": "托儿所"}, {"term": "primary /elementary", "ipa": "['praɪm(ə)rɪ] [elɪ’ment(ə)rɪ]", "meaning": ""}, {"term": "school", "ipa": "", "meaning": "小学"}, {"term": "secondary school", "ipa": "['sek(ə)nd(ə)rɪ]", "meaning": "中学"}, {"term": "junior high school", "ipa": "['dʒuːnɪə] [haɪ]", "meaning": "初中"}, {"term": "senior high school", "ipa": "['siːnɪə; 'siːnjə]", "meaning": "高中"}, {"term": "graduate school", "ipa": "['grædʒʊət; -djʊət]", "meaning": "研究生院"}, {"term": "private school", "ipa": "['praɪvət]", "meaning": "私立学校"}, {"term": "public school", "ipa": "['pʌblɪk]", "meaning": "公立学校"}, {"term": "boarder", "ipa": "['bɔːdə]", "meaning": "住宿生"}, {"term": "undergraduate", "ipa": "[ʌndə'grædjʊət]", "meaning": "科"}, {"term": "postgraduate", "ipa": "[pəʊs(t)'grædjʊət]", "meaning": "研究生"}, {"term": "Bachelor", "ipa": "['bætʃələ]", "meaning": "学士"}, {"term": "Master", "ipa": "['mɑːstə]", "meaning": "硕士"}, {"term": "Doctor", "ipa": "['dɒktə]", "meaning": "博士"}, {"term": "graduation appraisal", "ipa": "[grædʒʊ'eɪʃ(ə)n; -djʊ-]", "meaning": ""}, {"term": "commencement", "ipa": "[kə'mensm(ə)nt]", "meaning": "毕业典礼"}, {"term": "diploma / graduation certificate", "ipa": "[dɪ'pləʊmə]", "meaning": ""}, {"term": "degree", "ipa": "[dɪ'griː]", "meaning": "学位"}, {"term": "certificate", "ipa": "[sə'tɪfɪkət]", "meaning": "证书"}, {"term": "qualification", "ipa": "[,kwɒlɪfɪ'keɪʃ(ə)n]", "meaning": "资格"}, {"term": "faculty", "ipa": "['fæk(ə)ltɪ]", "meaning": "教职员工的总称"}, {"term": "teaching assistant", "ipa": "['tiːtʃɪŋ] [ə'sɪst(ə)nt]", "meaning": "助教"}, {"term": "dean", "ipa": "[din]", "meaning": "学校分院长,系主任"}, {"term": "principal / president", "ipa": "['prɪnsɪp(ə)l] [‘prezɪd(ə)nt]", "meaning": "校长"}, {"term": "coordinator", "ipa": "[ko'ɔrdn,etɚ]", "meaning": "班主任"}, {"term": "lecturer", "ipa": "['lektʃ(ə)rə]", "meaning": "讲师"}, {"term": "assistant professor", "ipa": "[ə'sɪst(ə)nt] [prə'fesə]", "meaning": "助理教授"}, {"term": "associate professor", "ipa": "[ə'səʊʃɪeɪt; -sɪeɪt] [prə’fesə]", "meaning": "副教授"}, {"term": "professor", "ipa": "[prə'fesə]", "meaning": "教授"}, {"term": "school counselor", "ipa": "['kaʊnslɚ]", "meaning": "校辅导员"}, {"term": "supervisor", "ipa": "['suːpəvaɪzə; 'sjuː]", "meaning": "论文指导老师"}, {"term": "career advisor", "ipa": "[kə'rɪə] [əd'vaɪzɚ]", "meaning": "职业指导官"}, {"term": "adviser / mentor", "ipa": "[əd'vaɪzɚ] ['mɛn'tɔr]", "meaning": "导师"}, {"term": "chancellor", "ipa": "['tʃɑːns(ə)lə]", "meaning": "名誉校长"}, {"term": "president", "ipa": "['prezɪd(ə)nt]", "meaning": "大学校长"}, {"term": "term /semester", "ipa": "[tɜːm] [sɪ'mestə]", "meaning": "学期"}, {"term": "academic year", "ipa": "[ækə'demɪk] [jɪə; jɜː]", "meaning": "学年"}, {"term": "teaching facilities", "ipa": "['tiːtʃɪŋ] [fə'silitiz]", "meaning": "教学设施"}, {"term": "canteen", "ipa": "[kæn'tiːn]", "meaning": "食堂"}, {"term": "refectory", "ipa": "[rɪ'fekt(ə)rɪ]", "meaning": "食堂"}, {"term": "buffet", "ipa": "['bʊfeɪ; 'bʌfeɪ]", "meaning": "自助餐"}, {"term": "auditorium", "ipa": "[ɔːdɪ'tɔːrɪəm]", "meaning": "礼堂"}, {"term": "lecture theatre", "ipa": "['lektʃə] ['θiətə]", "meaning": "阶梯教室"}, {"term": "teaching building", "ipa": "['tiːtʃɪŋ] ['bɪldɪŋ]", "meaning": "教学楼"}, {"term": "hall of residence", "ipa": "[hɔːl] [‘rezɪd(ə)ns]", "meaning": "宿舍楼"}, {"term": "library", "ipa": "['laɪbrərɪ; -brɪ]", "meaning": "图书馆"}, {"term": "laboratory /lab", "ipa": "[lə'bɒrə,t(ə)rɪ] [læb]", "meaning": "实验室"}, {"term": "recreation centre", "ipa": "[,rekrɪ'eɪʃ(ə)n] [‘sentə]", "meaning": "娱乐中心"}, {"term": "sponsor", "ipa": "['spɒnsə]", "meaning": "赞助人"}, {"term": "English proficiency", "ipa": "['iŋɡliʃ] [prə'fɪʃ(ə)nsɪ]", "meaning": "英语 流利程度"}, {"term": "textbook", "ipa": "['teks(t)bʊk]", "meaning": "课本"}, {"term": "methodology", "ipa": "[meθə'dɒlədʒɪ]", "meaning": "教学法"}, {"term": "debate", "ipa": "[dɪ'beɪt]", "meaning": "辩论"}, {"term": "seminar", "ipa": "['semɪnɑː]", "meaning": "研讨会"}, {"term": "lecture", "ipa": "['lektʃə]", "meaning": "讲座"}, {"term": "conference hall", "ipa": "['kɒnf(ə)r(ə)ns] [hɔːl]", "meaning": "会议厅"}, {"term": "venue", "ipa": "['venjuː]", "meaning": "场地"}, {"term": "grant", "ipa": "[grɑːnt]", "meaning": "助学金"}, {"term": "loan", "ipa": "[ləʊn]", "meaning": "贷款"}, {"term": "tuition", "ipa": "[tjuː'ɪʃ(ə)n]", "meaning": "学费"}, {"term": "scholarship", "ipa": "['skɒləʃɪp]", "meaning": "本科奖学金"}, {"term": "fellowship", "ipa": "['felə(ʊ)ʃɪp]", "meaning": "研究生奖学金"}, {"term": "student union", "ipa": "['stjuːd(ə)nt] ['juːnjən; -ɪən]", "meaning": "学生会"}, {"term": "schedule / school timetable", "ipa": "['ʃedjuːl; 'sked-]", "meaning": ""}, {"term": "course arrangement", "ipa": "[kɔːs] [ə’reɪn(d)ʒm(ə)nt]", "meaning": "课程安排"}, {"term": "syllabus", "ipa": "['sɪləbəs]", "meaning": "教学大纲"}, {"term": "extracurricular", "ipa": "[ekstrəkə'rɪkjʊlə]", "meaning": "课外课程"}]}, {"part": "Academic English", "section": "Majors", "items": [{"term": "beginner course", "ipa": "[bɪ'gɪnə] [kɔːs]", "meaning": "入门课"}, {"term": "foundation course", "ipa": "[faʊn'deɪʃ(ə)n]", "meaning": "基础课"}, {"term": "basic course", "ipa": "['beɪsɪk]", "meaning": "基础课"}, {"term": "elementary course", "ipa": "[elɪ'ment(ə)rɪ]", "meaning": "初级课"}, {"term": "primary course", "ipa": "['praɪm(ə)rɪ]", "meaning": "初级课"}, {"term": "secondary course", "ipa": "['sek(ə)nd(ə)rɪ]", "meaning": "中级课"}, {"term": "intermediate course", "ipa": "[,ɪntə'miːdɪət]", "meaning": "中级课"}, {"term": "advanced course", "ipa": "[æd'vɑːnst]", "meaning": "高级课"}, {"term": "compulsory course", "ipa": "[kəm'pʌls(ə)rɪ]", "meaning": "必修课"}, {"term": "required course", "ipa": "[rɪ'kwaɪrd]", "meaning": "必修课"}, {"term": "optional course", "ipa": "['ɒpʃ(ə)n(ə)l]", "meaning": "选修课"}, {"term": "elective course", "ipa": "[ɪ'lektɪv]", "meaning": "选修课"}, {"term": "specialized course", "ipa": "['spɛʃə'laɪzd]", "meaning": "专业课"}, {"term": "general course", "ipa": "['dʒen(ə)r(ə)l]", "meaning": "公共课"}, {"term": "major", "ipa": "['meɪdʒə]", "meaning": "主修"}, {"term": "minor", "ipa": "['maɪnə]", "meaning": "副修"}, {"term": "Archaeology", "ipa": "[,ɑːkɪ'ɒlədʒɪ]", "meaning": "考古学"}, {"term": "Architecture", "ipa": "['ɑːkɪtektʃə]", "meaning": "建筑学"}, {"term": "Astronomy", "ipa": "[ə'strɒnəmɪ]", "meaning": "天文学"}, {"term": "Agriculture", "ipa": "['ægrɪkʌltʃə]", "meaning": "农业"}, {"term": "Geography", "ipa": "[dʒɪ'ɒgrəfɪ]", "meaning": "地理"}, {"term": "Geology", "ipa": "[dʒɪ'ɒlədʒɪ]", "meaning": "地质"}, {"term": "Chemistry", "ipa": "['kemɪstrɪ]", "meaning": "化学"}, {"term": "Marine-biology", "ipa": "[mə'riːn] [baɪ'ɒlədʒɪ]", "meaning": "海洋生物学"}, {"term": "Hospitality", "ipa": "[hɒspɪ'tælɪtɪ]", "meaning": "酒店管理"}, {"term": "Ecology", "ipa": "[ɪ'kɒlədʒɪ; e-]", "meaning": "生态学"}, {"term": "Mathematics /maths", "ipa": "[mæθ(ə)'mætɪks] [mæθs]", "meaning": "数学"}, {"term": "Statistics", "ipa": "[stə'tɪstɪks]", "meaning": "统计学"}, {"term": "Genetics", "ipa": "[dʒɪ'netɪks]", "meaning": "遗传学"}, {"term": "Physiology", "ipa": "[,fɪzɪ'ɒlədʒɪ]", "meaning": "生理学"}, {"term": "Literature", "ipa": "['lɪt(ə)rətʃə]", "meaning": "文学"}, {"term": "Philosophy", "ipa": "[fɪ'lɒsəfɪ]", "meaning": "哲学"}, {"term": "History", "ipa": "['hɪst(ə)rɪ]", "meaning": "历史"}, {"term": "Art", "ipa": "[ɑːt]", "meaning": "艺术"}, {"term": "Sociology", "ipa": "[səʊsɪ'ɒlədʒɪ; səʊʃɪ-]", "meaning": "社会学"}, {"term": "Linguistics", "ipa": "[lɪŋ'gwɪstɪks]", "meaning": "语言学"}, {"term": "Psychology", "ipa": "[saɪ'kɒlədʒɪ]", "meaning": "心理学"}, {"term": "Engineering", "ipa": "[endʒɪ'nɪərɪŋ]", "meaning": "工程学"}, {"term": "Business", "ipa": "['bɪznɪs]", "meaning": "商务"}, {"term": "Law", "ipa": "[lɔː]", "meaning": "法学"}, {"term": "Economics", "ipa": "[iːkə'nɒmɪks; ek-]", "meaning": "经济学"}, {"term": "Finance", "ipa": "[faɪ'næns; fɪ-; 'faɪnæns]", "meaning": "金融学"}, {"term": "Accounting", "ipa": "[ə'kaʊntɪŋ]", "meaning": "会计学"}, {"term": "Banking", "ipa": "['bæŋkɪŋ]", "meaning": "银行学"}, {"term": "Physics", "ipa": "['fɪzɪks]", "meaning": "物理学"}, {"term": "Anthropology", "ipa": "[,ænθrə'pɒlədʒɪ]", "meaning": "人类学"}, {"term": "Science", "ipa": "['saɪəns]", "meaning": "科学"}]}, {"part": "Academic English", "section": "Research Methodology", "items": [{"term": "feedback", "ipa": "['fiːdbæk]", "meaning": "反馈"}, {"term": "research", "ipa": "[rɪ'sɜːtʃ; 'riːsɜːtʃ]", "meaning": "研究"}, {"term": "poll ⺠", "ipa": "[pəʊl]", "meaning": "民意调查"}, {"term": "survey", "ipa": "[sə'veɪ]", "meaning": "调查"}, {"term": "analyze data", "ipa": "['ænə,laɪz] ['deɪtə]", "meaning": "分析数据"}, {"term": "questionnaire", "ipa": "[,kwestʃə'neə]", "meaning": "调查问卷"}, {"term": "case study", "ipa": "[keɪs] ['stʌdɪ]", "meaning": "案例调查"}, {"term": "observation", "ipa": "[ɒbzə'veɪʃ(ə)n]", "meaning": "观察法"}, {"term": "hypothesis", "ipa": "[haɪ'pɒθɪsɪs]", "meaning": "假设"}, {"term": "statistics", "ipa": "[stə'tɪstɪks]", "meaning": "统计"}, {"term": "valid /invalid", "ipa": "['vælɪd] ['ɪnvəlɪd]", "meaning": "有效的/无效的"}, {"term": "data", "ipa": "['deɪtə]", "meaning": "数据"}, {"term": "investigation", "ipa": "[ɪn,vestɪ'geɪʃ(ə)n]", "meaning": "调查"}, {"term": "interview", "ipa": "['ɪntəvjuː]", "meaning": "访谈"}, {"term": "respondent / interviewee", "ipa": "[rɪ'spɒnd(ə)nt]", "meaning": ""}, {"term": "results", "ipa": "[rɪ'zʌlt]", "meaning": "结果"}, {"term": "conclusion", "ipa": "[kən'kluːʒ(ə)n]", "meaning": "结论"}, {"term": "interpretation", "ipa": "[ɪntɜːprɪ'teɪʃ(ə)n]", "meaning": "解释/阐释"}, {"term": "opinion", "ipa": "[ə'pɪnjən]", "meaning": "观点"}]}, {"part": "Academic English", "section": "Dissertation", "items": []}, {"part": "Academic English", "section": "Structure:", "items": [{"term": "title", "ipa": "['taɪt(ə)l]", "meaning": "标题"}, {"term": "subtitle", "ipa": "['sʌbtaɪt(ə)l]", "meaning": "副标题"}, {"term": "abstract", "ipa": "['æbstrækt]", "meaning": "摘要"}, {"term": "introduction", "ipa": "[,ɪntrə'dʌkʃ(ə)n]", "meaning": "引言"}, {"term": "section", "ipa": "['sekʃ(ə)n]", "meaning": "部分,章节"}, {"term": "conclusion", "ipa": "[kən'kluːʒ(ə)n]", "meaning": "结论"}, {"term": "bibliography", "ipa": "[,bɪblɪ'ɒgrəfɪ]", "meaning": "参考书目"}, {"term": "references", "ipa": "['ref(ə)r(ə)ns]", "meaning": "参考文献"}, {"term": "index", "ipa": "['ɪndeks]", "meaning": "索引"}, {"term": "appendix", "ipa": "[ə'pendɪks]", "meaning": "附录"}]}, {"part": "Academic English", "section": "Procedures:", "items": [{"term": "format", "ipa": "['fɔːmæt]", "meaning": "格式,版式"}, {"term": "draft", "ipa": "[drɑːft]", "meaning": "草稿"}, {"term": "data collection", "ipa": "['deɪtə,kə'lekʃ(ə)n]", "meaning": "数据收集"}, {"term": "research", "ipa": "[ri'sə:tʃ]", "meaning": "研究"}, {"term": "hand in /submit", "ipa": "[hænd ɪn] [səb'mɪt]", "meaning": "上交"}, {"term": "proofreading", "ipa": "['prʊf,ridiŋ]", "meaning": "校对"}, {"term": "print", "ipa": "[print]", "meaning": "打印"}, {"term": "deadline", "ipa": "['dedlaɪn]", "meaning": "截止日期"}]}, {"part": "Academic English", "section": "Requirements:", "items": [{"term": "word limit", "ipa": "[wɜːd 'lɪmɪt]", "meaning": "词数限制"}, {"term": "length", "ipa": "[leŋθ]", "meaning": "长度"}, {"term": "quotation", "ipa": "[kwə(ʊ)'teɪʃ(ə)n]", "meaning": "引用"}, {"term": "example", "ipa": "[ɪg'zɑːmp(ə)l]", "meaning": "例子"}, {"term": "acknowledgement", "ipa": "[ək'nɑlɪdʒmənt]", "meaning": "致谢"}, {"term": "data analysis", "ipa": "['deitə ə'næləsis]", "meaning": "数据分析"}, {"term": "plagiarism", "ipa": "['pleɪdʒərɪz(ə)m]", "meaning": "抄袭"}, {"term": "bold", "ipa": "[bəʊld]", "meaning": "黑体的"}, {"term": "italics", "ipa": "[i'tæliks]", "meaning": "斜体的"}, {"term": "underline", "ipa": "[ʌndə'laɪn]", "meaning": "下划线"}, {"term": "highlight", "ipa": "['haɪlaɪt]", "meaning": "加亮"}, {"term": "outline", "ipa": "['aʊtlaɪn]", "meaning": "大纲,概要"}, {"term": "coversheet", "ipa": "['kʌvəʃiːt]", "meaning": "封面"}, {"term": "page number ⻚", "ipa": "[peɪdʒ 'nʌmbə]", "meaning": "页码"}]}, {"part": "Academic English", "section": "Extension:", "items": [{"term": "sickness/illness", "ipa": "['sɪknɪs] [ɪlnɪs]", "meaning": "疾病"}, {"term": "special leave", "ipa": "['speʃ(ə)l liːv]", "meaning": "事假"}, {"term": "can not find reference books", "ipa": "['ref(ə)r(ə)ns]", "meaning": "找不到参考书"}]}, {"part": "Academic English", "section": "Geography", "items": [{"term": "terrain:", "ipa": "[te'reɪn]", "meaning": "地形,地势;领域"}, {"term": "plain", "ipa": "[pleɪn]", "meaning": "平的;平原"}, {"term": "plateau", "ipa": "['plætəʊ]", "meaning": "高原"}, {"term": "desert", "ipa": "['dezət; dɪ'zɜːt]", "meaning": "沙漠,荒原"}, {"term": "mountain", "ipa": "['maʊntɪn]", "meaning": "山,山脉"}, {"term": "wetland", "ipa": "['wetlənd]", "meaning": "湿地,沼泽地"}, {"term": "marshes", "ipa": "[mɑːʃ]", "meaning": "湿地,沼泽[复数]"}, {"term": "grass", "ipa": "[grɑːs]", "meaning": "草,草地"}, {"term": "pasture", "ipa": "['pɑːstʃə]", "meaning": "草地,牧场,牧草"}, {"term": "ice shelf", "ipa": "[aɪs] [ʃelf]", "meaning": "冰架"}, {"term": "water resource :", "ipa": "[rɪ'sɔːs;rɪ'zɔːs]", "meaning": "水资源"}, {"term": "fresh water", "ipa": "[freʃ] ['wɔːtə]", "meaning": "淡水"}, {"term": "underground water", "ipa": "[ʌndə'graʊnd]", "meaning": "地下水"}, {"term": "subterranean water", "ipa": "[,sʌbtə'reɪnɪən]", "meaning": "地下水"}, {"term": "reservoir", "ipa": "['rezəvwɑ: (r)]", "meaning": "水库,蓄水池"}, {"term": "dam water", "ipa": "[dæm]", "meaning": "坝水"}, {"term": "pond water", "ipa": "[pɒnd]", "meaning": "池塘水"}, {"term": "river", "ipa": "['rɪvə]", "meaning": "河流"}, {"term": "lake", "ipa": "[leɪk]", "meaning": "湖泊"}, {"term": "sea water", "ipa": "[siː]", "meaning": "海水"}, {"term": "evaporation", "ipa": "[ɪ,væpə'reʃən]", "meaning": "蒸发,消失"}, {"term": "disasters :", "ipa": "[dɪ'zɑːstə]", "meaning": "灾难"}, {"term": "floods", "ipa": "[flʌd]", "meaning": "洪水[复数]"}, {"term": "drought", "ipa": "[draʊt]", "meaning": "干旱"}, {"term": "typhoon", "ipa": "[taɪ'fuːn]", "meaning": "台⻛风"}, {"term": "hurricane", "ipa": "['hʌrɪk(ə)n; -keɪn]", "meaning": "飓⻛风"}, {"term": "tornado", "ipa": "[tɔː'neɪdəʊ]", "meaning": "龙卷⻛风"}, {"term": "snow storm", "ipa": "[snəʊ] [stɔːm]", "meaning": "暴⻛风雪"}, {"term": "thunderstorm", "ipa": "['θʌndəstɔːm]", "meaning": "雷暴,雷暴雨"}, {"term": "dust storm", "ipa": "[dʌst] [stɔːm]", "meaning": "沙尘暴"}, {"term": "mines :", "ipa": "[maɪn]", "meaning": "矿"}, {"term": "iron ore", "ipa": "['aɪən] [ɔː]", "meaning": "铁矿石"}, {"term": "coal", "ipa": "[kəʊl]", "meaning": "煤"}, {"term": "petroleum", "ipa": "[pɪ'trəʊlɪəm]", "meaning": "石油"}, {"term": "gas", "ipa": "[gæs]", "meaning": "汽油"}, {"term": "gold", "ipa": "[gəʊld]", "meaning": "金"}, {"term": "barren mine", "ipa": "['bær(ə)n] [maɪn]", "meaning": "贫瘠的矿井"}, {"term": "minerals", "ipa": "['mɪn(ə)r(ə)l]", "meaning": "矿物,矿石[复数]"}, {"term": "deposit", "ipa": "[dɪ'pɒzɪt]", "meaning": "沉淀"}, {"term": "botany", "ipa": "['bɒt(ə)nɪ]", "meaning": "植物学"}, {"term": "plant :", "ipa": "[plɑːnt]", "meaning": "植物"}, {"term": "leaf (leaves )", "ipa": "[liːf] [liːvz]", "meaning": "叶子"}, {"term": "branch", "ipa": "[brɑːn(t)ʃ]", "meaning": "枝"}, {"term": "stem", "ipa": "[stem]", "meaning": "干;茎"}, {"term": "root", "ipa": "[ruːt]", "meaning": "根"}, {"term": "flower", "ipa": "['flaʊə]", "meaning": "花"}, {"term": "bud", "ipa": "[bʌd]", "meaning": "芽,蓓蕾"}, {"term": "petals", "ipa": "['pet(ə)l]", "meaning": "花瓣[复数]"}, {"term": "variety :", "ipa": "[və'raɪətɪ]", "meaning": "种类"}, {"term": "pine tree", "ipa": "[paɪn] [triː]", "meaning": "松树"}, {"term": "fruit tree", "ipa": "[fruːt] [triː]", "meaning": "果树"}, {"term": "strawberry", "ipa": "['strɔːb(ə)rɪ]", "meaning": "草莓"}, {"term": "mulberry", "ipa": "['mʌlb(ə)rɪ]", "meaning": "桑树,桑葚"}, {"term": "lemon tree", "ipa": "['lemən] [triː]", "meaning": "柠檬树"}, {"term": "coco tree", "ipa": "['kəʊkəʊ] [triː]", "meaning": "椰树"}, {"term": "coffee beans", "ipa": "['kɒfɪ] [biːn]", "meaning": "咖啡豆[复数]"}, {"term": "banana", "ipa": "[bə'nɑːnə]", "meaning": "香蕉"}, {"term": "planting methods :", "ipa": "[plɑːntɪŋ] ['meθəd]", "meaning": "种植方法"}, {"term": "greenhouse", "ipa": "['griːnhaʊs]", "meaning": "温室"}, {"term": "transplant", "ipa": "[træns'plɑːnt; trɑːns-; -nz-]", "meaning": "移植"}]}, {"part": "Academic English", "section": "Animals", "items": [{"term": "Australian animals :", "ipa": "[ɑ'strelɪən] ['ænɪm(ə)l]", "meaning": "澳大利亚动物"}, {"term": "kangaroo", "ipa": "[,kæŋgə'ruː]", "meaning": "袋鼠"}, {"term": "koala", "ipa": "[kəʊ'ɑːlə]", "meaning": "考拉"}, {"term": "wombat [", "ipa": "['wɔmbət, -bæt]", "meaning": "脊椎] 袋熊,毛鼻袋熊(体形像熊的澳大利亚有袋动物)"}, {"term": "Mammals :", "ipa": "['mæm(ə)l]", "meaning": "哺乳动物"}, {"term": "lion", "ipa": "['laɪən]", "meaning": "狮子"}, {"term": "sheep", "ipa": "[ʃiːp]", "meaning": "绵羊"}, {"term": "elephant", "ipa": "['elɪf(ə)nt]", "meaning": "大象"}, {"term": "cattle", "ipa": "['kæt(ə)l]", "meaning": "牛,家畜"}, {"term": "goat", "ipa": "[gəʊt]", "meaning": "山羊"}, {"term": "polar bear", "ipa": "['pəʊlə] [beə]", "meaning": "北极熊"}, {"term": "wolf", "ipa": "[wʊlf]", "meaning": "狼"}, {"term": "fox", "ipa": "[fɒks]", "meaning": "狐狸"}, {"term": "puma", "ipa": "['pjuːmə]", "meaning": "美洲狮"}, {"term": "tiger", "ipa": "['taɪgə]", "meaning": "老⻁虎"}, {"term": "cub", "ipa": "[kʌb]", "meaning": "仔兽;幼狐;小熊;(狼,⻁虎等的)仔"}, {"term": "puppy", "ipa": "['pʌpɪ]", "meaning": "小狗"}, {"term": "calf", "ipa": "[kɑːf]", "meaning": "小牛犊"}, {"term": "lamb", "ipa": "[læm]", "meaning": "羔羊"}, {"term": "breeding animals", "ipa": "[‘briːdɪŋ] ['ænɪm(ə)l]", "meaning": "种畜,饲养动物"}]}, {"part": "Academic English", "section": "Birds:", "items": [{"term": "ostrich", "ipa": "['ɒstrɪtʃ]", "meaning": "鸵鸟"}, {"term": "kiwi", "ipa": "['kiːwiː; -wɪ]", "meaning": "几维鸟"}, {"term": "falcon", "ipa": "['fɔː(l)k(ə)n; 'fɒlk(ə)n]", "meaning": "隼,猎鹰"}, {"term": "emu", "ipa": "['iːmjuː]", "meaning": "鸸鹋"}, {"term": "chicks", "ipa": "[tʃɪk]", "meaning": "小鸟,小鸡[复数]"}, {"term": "breeding birds", "ipa": "['briːdɪŋ] [bɜːd]", "meaning": "饲养禽鸟类"}, {"term": "Insects :", "ipa": "['ɪnsɛkt]", "meaning": "昆虫"}, {"term": "bee", "ipa": "[biː]", "meaning": "蜜蜂"}, {"term": "butterfly", "ipa": "['bʌtəflaɪ]", "meaning": "蝴蝶"}, {"term": "dragonfly", "ipa": "['dræg(ə)nflaɪ]", "meaning": "蜻蜓"}, {"term": "firefly", "ipa": "['faɪəflaɪ]", "meaning": "萤火虫"}, {"term": "worms", "ipa": "[wɜːm]", "meaning": "蠕虫[复数]"}, {"term": "Marine animals:", "ipa": "[mə'riːn]", "meaning": "海洋动物"}, {"term": "whale", "ipa": "[weɪl]", "meaning": "鲸⻥鱼"}, {"term": "dolphin", "ipa": "['dɒlfɪn]", "meaning": "海豚"}, {"term": "shark", "ipa": "[ʃɑːk]", "meaning": "鲨⻥鱼"}, {"term": "crocodile", "ipa": "['krɒkədaɪl]", "meaning": "鳄⻥鱼"}, {"term": "finfish", "ipa": "['fɪnfɪʃ]", "meaning": "有鳍的水族"}, {"term": "shellfish", "ipa": "['ʃelfɪʃ]", "meaning": "介壳类水生动物"}, {"term": "tortoise", "ipa": "['tɔːtəs; -tɒɪz]", "meaning": "乌龟"}]}, {"part": "Academic English", "section": "Geometry", "items": [{"term": "Dimensions :", "ipa": "[dɪ'menʃ(ə)n; daɪ-]", "meaning": "尺寸"}, {"term": "length", "ipa": "[leŋθ; leŋkθ]", "meaning": "长度"}, {"term": "width", "ipa": "[wɪtθ; wɪdθ]", "meaning": "宽度"}, {"term": "depth", "ipa": "[depθ]", "meaning": "深度"}, {"term": "height", "ipa": "[haɪt]", "meaning": "高度"}]}, {"part": "Academic English", "section": "(long, wide, deep, high)", "items": [{"term": "Length units (measurements ):", "ipa": "['meʒəm(ə)nt]", "meaning": "长度单位"}, {"term": "millimeter", "ipa": "['mili,mi:tə]", "meaning": "毫米"}, {"term": "centimeter", "ipa": "['senti,mi:tə]", "meaning": "厘米"}, {"term": "meter", "ipa": "['miːtə]", "meaning": "米"}, {"term": "kilometer", "ipa": "['kɪlə,mitɚ]", "meaning": "千米"}, {"term": "mile", "ipa": "[maɪl]", "meaning": "英里"}, {"term": "Geometrical figures :", "ipa": "[dʒɪə'mɛtrɪkl] ['fɪgə]", "meaning": "几何图形"}, {"term": "triangle", "ipa": "['traɪæŋg(ə)l]", "meaning": "三⻆角形"}, {"term": "rectangle", "ipa": "['rektæŋg(ə)l]", "meaning": "矩形,长方形"}, {"term": "square", "ipa": "[skweə]", "meaning": "正方形,平方"}, {"term": "diamond", "ipa": "['daɪəmənd]", "meaning": "钻石,菱形"}, {"term": "circle", "ipa": "['sɜːk(ə)l]", "meaning": "圆形"}, {"term": "line", "ipa": "[laɪn]", "meaning": "直线"}, {"term": "dotted line", "ipa": "['dɑtɪd]", "meaning": "虚线"}, {"term": "broken line", "ipa": "['brəʊk(ə)n]", "meaning": "折线,虚线"}, {"term": "inverted", "ipa": "[ɪn'vɝt]", "meaning": "逆"}, {"term": "cone", "ipa": "[kəʊn]", "meaning": "圆锥,锥形物"}, {"term": "cylinder", "ipa": "['sɪlɪndə]", "meaning": "柱体"}, {"term": "conical", "ipa": "['kɒnɪk(ə)l]", "meaning": "圆锥体的"}, {"term": "cylindrical", "ipa": "[sɪ'lɪndrɪkəl]", "meaning": "圆柱体的"}]}, {"part": "Academic English", "section": "Diet and Health", "items": [{"term": "Food intake/ elements:", "ipa": "['ɪnteɪk] ['elɪm(ə)nt]", "meaning": "食物摄入/元素"}, {"term": "protein", "ipa": "['prəʊtiːn]", "meaning": "蛋白质"}, {"term": "vitamins", "ipa": "['vɪtəmɪn; 'vaɪt-]", "meaning": "维生素[复数]"}, {"term": "fat", "ipa": "[fæt]", "meaning": "油脂,脂肪"}, {"term": "carbohydrates", "ipa": "[kɑːbə'haɪdreɪt]", "meaning": "碳水化合物"}, {"term": "fat acid", "ipa": "['æsɪd]", "meaning": "脂肪酸"}, {"term": "calcium", "ipa": "['kælsɪəm]", "meaning": "钙"}, {"term": "cholesterol", "ipa": "[kə'lestərɒl]", "meaning": "胆固醇"}, {"term": "minerals", "ipa": "['mɪn(ə)r(ə)l]", "meaning": "矿物质"}, {"term": "calorie", "ipa": "['kælərɪ]", "meaning": "卡路里"}, {"term": "kilocalorie", "ipa": "['kɪlə,kælərɪ]", "meaning": "千卡"}, {"term": "diet :", "ipa": "['daɪət]", "meaning": "饮食"}, {"term": "cereals", "ipa": "['sɪərɪəl]", "meaning": "谷类,谷类食品"}, {"term": "sugar", "ipa": "['ʃʊgə]", "meaning": "糖"}, {"term": "salt", "ipa": "[sɔːlt; sɒlt]", "meaning": "盐"}, {"term": "lean meat", "ipa": "[liːn] [miːt]", "meaning": "瘦肉"}, {"term": "eggs", "ipa": "[ɛg]", "meaning": "蛋"}, {"term": "fish ⻥", "ipa": "[fɪʃ]", "meaning": "鱼,捕⻥鱼"}, {"term": "milk", "ipa": "[mɪlk]", "meaning": "牛奶,乳状物"}, {"term": "vegetables", "ipa": "['vɛdʒətəbl]", "meaning": "蔬菜"}, {"term": "fruit", "ipa": "[fruːt]", "meaning": "水果"}, {"term": "staple:", "ipa": "['steɪp(ə)l]", "meaning": "主食"}, {"term": "wheat", "ipa": "[wiːt]", "meaning": "小⻨麦"}, {"term": "corn", "ipa": "[kɔːn]", "meaning": "玉米;谷物"}, {"term": "barley", "ipa": "['bɑːlɪ]", "meaning": "大⻨麦"}, {"term": "oat", "ipa": "[əʊt]", "meaning": "燕⻨麦,燕⻨麦粥"}, {"term": "maize", "ipa": "[meɪz]", "meaning": "玉米"}, {"term": "rice", "ipa": "[raɪs]", "meaning": "大米"}, {"term": "health:", "ipa": "", "meaning": "健康"}, {"term": "low nutrition", "ipa": "[ləʊ] [njʊ'trɪʃ(ə)n]", "meaning": "低营养"}, {"term": "malnutrition", "ipa": "[mælnjʊ'trɪʃ(ə)n]", "meaning": "营养不良"}, {"term": "overweight", "ipa": "[əʊvə'weɪt]", "meaning": "超重"}, {"term": "obese", "ipa": "[ə(ʊ)'biːs]", "meaning": "肥胖的"}, {"term": "underweight", "ipa": "[ʌndə'weɪt]", "meaning": "重量不足"}, {"term": "intelligence", "ipa": "[ɪn'telɪdʒ(ə)ns]", "meaning": "智力"}, {"term": "eyesight", "ipa": "['aɪsaɪt]", "meaning": "视力"}, {"term": "brain", "ipa": "[breɪn]", "meaning": "头脑,智力"}, {"term": "learning difficulty", "ipa": "['lɜːnɪŋ] ['dɪfɪk(ə)ltɪ]", "meaning": "学习困难"}, {"term": "digestion", "ipa": "[daɪ'dʒestʃ(ə)n; dɪ-]", "meaning": "消化,领悟"}, {"term": "congestion", "ipa": "[kən'dʒɛstʃən]", "meaning": "堵塞"}, {"term": "heart disease", "ipa": "[hɑːt] [dɪ'ziːz]", "meaning": "心脏病"}, {"term": "tuberculosis", "ipa": "[tjʊ,bɜːkjʊ'ləʊsɪs]", "meaning": "结核病"}, {"term": "Medicine", "ipa": "", "meaning": "医学"}, {"term": "doctors :", "ipa": "['dɒktə]", "meaning": "医生"}, {"term": "physician", "ipa": "[fɪ'zɪʃ(ə)n]", "meaning": "医师,内科医师"}, {"term": "surgeon", "ipa": "['sɜːdʒ(ə)n]", "meaning": "外科医生"}, {"term": "dentist", "ipa": "['dentɪst]", "meaning": "牙医"}, {"term": "veterinarian", "ipa": "[,vet(ə)rɪ'neərɪən]", "meaning": "兽医"}, {"term": "pediatrician", "ipa": "[,pidɪə'trɪʃən]", "meaning": "儿科医生"}, {"term": "therapist", "ipa": "['θerəpɪst]", "meaning": "临床医学家"}, {"term": "general practitioner", "ipa": "['dʒen(ə)r(ə)l] [præk'tɪʃ(ə)nə]", "meaning": "全科医师"}, {"term": "treatments:", "ipa": "['triːtm(ə)nt]", "meaning": "治疗,疗法"}, {"term": "cure", "ipa": "[kjʊə; kjɔː]", "meaning": "治疗,治愈"}, {"term": "remedy", "ipa": "['remɪdɪ]", "meaning": "治疗,补救"}, {"term": "therapy", "ipa": "['θerəpɪ]", "meaning": "治疗,疗法"}, {"term": "acupuncture", "ipa": "['ækjʊ,pʌŋ(k)tʃə]", "meaning": "针刺,针灸"}]}, {"part": "Academic English", "section": "diseases:", "items": [{"term": "headache", "ipa": "['hedeɪk]", "meaning": "头疼"}, {"term": "toothache", "ipa": "['tuːθeɪk]", "meaning": "牙疼"}, {"term": "backache", "ipa": "['bækeɪk]", "meaning": "背痛,腰痛"}, {"term": "stomachache", "ipa": "['stʌməkeɪk]", "meaning": "胃疼"}, {"term": "heart disease", "ipa": "[hɑːt] [dɪ'ziːz]", "meaning": "心脏病"}, {"term": "pneumonia", "ipa": "[njuː'məʊnɪə]", "meaning": "肺炎"}, {"term": "tuberculosis", "ipa": "[tjʊ,bɜːkjʊ'ləʊsɪs]", "meaning": "结核病"}, {"term": "diabetes", "ipa": "[,daɪə'biːtiːz]", "meaning": "糖尿病"}, {"term": "insomnia", "ipa": "[ɪn'sɒmnɪə]", "meaning": "失眠"}, {"term": "asthma", "ipa": "['æsmə]", "meaning": "哮喘"}, {"term": "employment medical [ɪm'plɒɪm(ə)nt", "ipa": "", "meaning": ""}]}, {"part": "Academic English", "section": "‘medɪk(ə)l]", "items": []}, {"part": "Academic English", "section": "Medical", "items": [{"term": "sprain", "ipa": "[spreɪn]", "meaning": "扭伤"}, {"term": "medicine :", "ipa": "['meds(ə)n; 'medɪsɪn]", "meaning": "药物"}, {"term": "antibiotics", "ipa": "[,æntɪbaɪ'ɑtɪks]", "meaning": "抗生素"}, {"term": "penicillin", "ipa": "[penɪ'sɪlɪn]", "meaning": "盘尼⻄西林"}, {"term": "aspirin", "ipa": "['æsp(ə)rɪn]", "meaning": "阿司匹林"}, {"term": "sleeping pills", "ipa": "['slipɪŋ] [pɪl]", "meaning": "安眠药"}, {"term": "painkillers", "ipa": "['peɪnkɪlə]", "meaning": "止痛药"}, {"term": "dose", "ipa": "[dəʊs]", "meaning": "剂量,一剂"}, {"term": "overdose", "ipa": "['əʊvədəʊs]", "meaning": "服药过量"}, {"term": "ice pack", "ipa": "[aɪs] [pæk]", "meaning": "冰袋"}, {"term": "walking sticks", "ipa": "[wɔːkɪŋ] [stɪk]", "meaning": "手杖"}, {"term": "surgery /operation", "ipa": "['sɜːdʒ(ə)rɪ] [ɒpə'reɪʃən]", "meaning": "手术"}, {"term": "hospital :", "ipa": "['hɒspɪt(ə)l]", "meaning": "医院"}, {"term": "clinics", "ipa": "['klɪnɪk]", "meaning": "诊所,门诊"}, {"term": "ward", "ipa": "[wɔːd]", "meaning": "病房"}, {"term": "maternity", "ipa": "[mə'tɜːnɪtɪ]", "meaning": "妇产科医院"}, {"term": "emergency", "ipa": "[ɪ'mɜːdʒ(ə)nsɪ]", "meaning": "急诊"}, {"term": "surgery", "ipa": "['sɜːdʒ(ə)rɪ]", "meaning": "手术室;手术"}]}, {"part": "Academic English", "section": "Urban development", "items": []}, {"part": "Academic English", "section": "Areas:", "items": [{"term": "suburb", "ipa": "['sʌbɜːb]", "meaning": "郊区"}, {"term": "outskirt", "ipa": "['aʊtskɜːt]", "meaning": "郊区"}, {"term": "city center", "ipa": "['sɪtɪ 'sɛntɚ]", "meaning": "市中心"}, {"term": "rural area", "ipa": "['rʊər(ə)l 'eərɪə]", "meaning": "农村地区"}, {"term": "countryside", "ipa": "['kʌntrɪsaɪd]", "meaning": "农村"}]}, {"part": "Academic English", "section": "Population:", "items": [{"term": "farmer", "ipa": "['fɑːmə]", "meaning": "农⺠民"}, {"term": "craftsmen", "ipa": "['krɑ:ftsmən]", "meaning": "工匠"}, {"term": "carpenter", "ipa": "['kɑːp(ə)ntə]", "meaning": "木匠"}, {"term": "fisherman", "ipa": "['fɪʃəmən]", "meaning": "渔夫"}, {"term": "hunters", "ipa": "['hʌntə]", "meaning": "猎人"}, {"term": "worker", "ipa": "['wɜːkə]", "meaning": "工人"}, {"term": "merchants", "ipa": "['mɜːtʃ(ə)nt]", "meaning": "商人"}]}, {"part": "Academic English", "section": "Sectors:", "items": [{"term": "farming /agriculture", "ipa": "['fɑːmɪŋ] ['ægrɪkʌltʃə]", "meaning": "农业"}, {"term": "industry", "ipa": "['ɪndəstrɪ]", "meaning": "工业"}, {"term": "forestry", "ipa": "['fɒrɪstrɪ]", "meaning": "林业"}, {"term": "fishing", "ipa": "['fɪʃɪŋ]", "meaning": "渔业"}, {"term": "manufacturing", "ipa": "[,mænju'fæktʃərɪŋ]", "meaning": "制造业"}, {"term": "tourism", "ipa": "['tʊərɪz(ə)m]", "meaning": "旅游业"}, {"term": "mining", "ipa": "['maɪnɪŋ]", "meaning": "矿业"}]}, {"part": "Academic English", "section": "Animals:", "items": [{"term": "mammals", "ipa": "['mæm(ə)l]", "meaning": "哺乳动物"}, {"term": "amphibian", "ipa": "[æm'fɪbɪən]", "meaning": "两栖动物"}, {"term": "birds", "ipa": "[bɜːd]", "meaning": "鸟类"}, {"term": "beast", "ipa": "[biːst]", "meaning": "野兽"}, {"term": "predator", "ipa": "['predətə]", "meaning": "食肉动物"}, {"term": "cattle", "ipa": "['kæt(ə)l]", "meaning": "牛"}, {"term": "sheep", "ipa": "[ʃiːp]", "meaning": "绵羊"}, {"term": "goats", "ipa": "[gəʊt]", "meaning": "山羊"}, {"term": "poultry", "ipa": "['pəʊltrɪ]", "meaning": "家禽"}, {"term": "chickens", "ipa": "['tʃɪkɪn]", "meaning": "鸡"}, {"term": "donkey", "ipa": "['dɒŋkɪ]", "meaning": "驴"}, {"term": "horse", "ipa": "[hɔːs]", "meaning": "马"}, {"term": "pony", "ipa": "['pəʊnɪ]", "meaning": "小马"}]}, {"part": "Academic English", "section": "Landscape:", "items": [{"term": "coast", "ipa": "[kəʊst]", "meaning": "海岸"}, {"term": "beach", "ipa": "[biːtʃ]", "meaning": "沙滩"}, {"term": "trees", "ipa": "[tri:s]", "meaning": "树"}, {"term": "high rises", "ipa": "[haɪ raɪz]", "meaning": "高楼大厦"}, {"term": "block", "ipa": "[blɒk]", "meaning": "街区"}]}, {"part": "Academic English", "section": "Environment and", "items": []}, {"part": "Academic English", "section": "archaeology", "items": [{"term": "origin", "ipa": "['ɒrɪdʒɪn]", "meaning": "起源"}, {"term": "population", "ipa": "[pɒpjʊ'leɪʃ(ə)n]", "meaning": "人口"}, {"term": "aboriginal", "ipa": "[æbə'rɪdʒɪn(ə)l]", "meaning": "原始的"}, {"term": "native", "ipa": "['neɪtɪv]", "meaning": "土著的"}, {"term": "aborigines", "ipa": "[,æbə'ridʒini:z]", "meaning": "土著居⺠民"}]}, {"part": "Academic English", "section": "Area:", "items": [{"term": "square metre", "ipa": "[skweə 'miːtə]", "meaning": "平方米"}, {"term": "kilometre", "ipa": "['kiləmi:tə(r)]", "meaning": "千米"}, {"term": "hectare", "ipa": "['hekteə]", "meaning": "公顷"}, {"term": "acre", "ipa": "['eɪkə]", "meaning": "英亩"}]}, {"part": "Academic English", "section": "Location:", "items": [{"term": "rain forest", "ipa": "[reɪn 'fɒrɪst]", "meaning": "雨林"}, {"term": "mountain", "ipa": "['maʊntɪn]", "meaning": "山"}, {"term": "desert", "ipa": "['dezət]", "meaning": "沙漠"}, {"term": "natural reserve", "ipa": "['nætʃərəl rɪ'zɜːv]", "meaning": "自然保护区"}, {"term": "conservation", "ipa": "[kɒnsə'veɪʃ(ə)n]", "meaning": "保存,保护"}, {"term": "sanctuary", "ipa": "['sæŋ(k)tjʊərɪ]", "meaning": "避难所"}]}, {"part": "Academic English", "section": "Geography:", "items": [{"term": "landscape", "ipa": "['læn(d)skeɪp]", "meaning": "景色"}, {"term": "altitude", "ipa": "['æltɪtjuːd]", "meaning": "海拔"}, {"term": "soil", "ipa": "[sɒɪl]", "meaning": "土壤"}, {"term": "fresh water", "ipa": "[freʃ 'wɔːtə]", "meaning": "淡水"}, {"term": "lake", "ipa": "[leɪk]", "meaning": "湖"}, {"term": "vegetation", "ipa": "[vedʒɪ'teɪʃ(ə)n]", "meaning": "植被"}, {"term": "peak", "ipa": "[piːk]", "meaning": "山峰"}]}, {"part": "Academic English", "section": "Historical sites:", "items": [{"term": "fort", "ipa": "[fɔːt]", "meaning": "堡垒"}, {"term": "castle", "ipa": "['kɑːs(ə)l]", "meaning": "城堡"}, {"term": "canal", "ipa": "[kə'næl]", "meaning": "运河"}, {"term": "rock art", "ipa": "[rɒk ɑːt]", "meaning": "岩石艺术"}]}, {"part": "Academic English", "section": "Dos and don’ts:", "items": [{"term": "make fire", "ipa": "[meɪk 'faɪə]", "meaning": "生火"}, {"term": "camping", "ipa": "['kæmpiŋ]", "meaning": "露营"}, {"term": "touch", "ipa": "[tʌtʃ]", "meaning": "触摸"}, {"term": "intact", "ipa": "[ɪn'tækt]", "meaning": "完好无损的"}, {"term": "take shots", "ipa": "[teɪk ʃɒts]", "meaning": "拍照"}, {"term": "at a distance", "ipa": "['dɪst(ə)ns]", "meaning": "在远处"}]}, {"part": "Academic English", "section": "Commerce and business", "items": []}, {"part": "Academic English", "section": "Company", "items": [{"term": "corporation", "ipa": "[kɔːpə'reɪʃ(ə)n]", "meaning": "公司"}, {"term": "firm", "ipa": "['fə:m]", "meaning": "公司"}, {"term": "business organization", "ipa": "['biznis ,ɔrɡənə'zeʃən]", "meaning": "商业组织"}, {"term": "enterprise", "ipa": "[‘entəpraɪz]", "meaning": "企业"}]}, {"part": "Academic English", "section": "Marketing", "items": [{"term": "advertising", "ipa": "['ædvətaɪzɪŋ]", "meaning": "广告"}, {"term": "financial problem", "ipa": "", "meaning": "财务困难"}, {"term": "administration", "ipa": "[ədmɪnɪ'streɪʃ(ə)n]", "meaning": "行政管理"}, {"term": "products", "ipa": "['prɑdəkt]", "meaning": "产品"}, {"term": "online shopping", "ipa": "['ɑn'laɪn 'ʃɒpɪŋ]", "meaning": "网上购物"}]}, {"part": "Academic English", "section": "Sales:", "items": [{"term": "promotion", "ipa": "[prə'məʊʃn]", "meaning": "促销"}, {"term": "discount", "ipa": "['dɪskaʊnt]", "meaning": "折扣"}, {"term": "on sales", "ipa": "[seɪlz]", "meaning": "特价出售"}, {"term": "normal price", "ipa": "['nɔːm(ə)l praɪs]", "meaning": "正常价格"}]}, {"part": "Academic English", "section": "Finance:", "items": [{"term": "money", "ipa": "['mʌnɪ]", "meaning": "金钱"}, {"term": "loan", "ipa": "[ləʊn]", "meaning": "贷款"}, {"term": "interest", "ipa": "['intrist]", "meaning": "利息"}, {"term": "fund", "ipa": "[fʌnd]", "meaning": "资金,基金"}, {"term": "investment", "ipa": "[ɪn'ves(t)m(ə)nt]", "meaning": "投资"}, {"term": "capital", "ipa": "['kæpɪt(ə)l]", "meaning": "资金,资本"}, {"term": "debt", "ipa": "[det]", "meaning": "债务"}, {"term": "bankruptcy", "ipa": "['bæŋkrʌptsɪ]", "meaning": "破产"}]}, {"part": "Academic English", "section": "Personnel:", "items": [{"term": "manager", "ipa": "['mænɪdʒə]", "meaning": "经理"}, {"term": "executives", "ipa": "[ɪg'zekjʊtɪv; eg-]", "meaning": "执行官"}, {"term": "board", "ipa": "[bɔːd]", "meaning": "董事会"}, {"term": "employers", "ipa": "[ɪm'plɒɪə]", "meaning": "雇主"}, {"term": "employees", "ipa": "[,ɛmplɔɪ'i]", "meaning": "雇员"}, {"term": "senior managers", "ipa": "['siːnɪə 'mænɪdʒə]", "meaning": "高管"}]}, {"part": "Survival English", "section": "Direction", "items": [{"term": "on the left/right", "ipa": "[left] [raɪt]", "meaning": "在左/右边"}, {"term": "turn(to the)left/right", "ipa": "", "meaning": "向左/右转"}, {"term": "around (the corner )to the left/right", "ipa": "", "meaning": "向左/右转"}, {"term": "be in front of", "ipa": "[frʌnt]", "meaning": "在... 前面"}, {"term": "be behind", "ipa": "[bɪ'haɪnd]", "meaning": "在...后面"}, {"term": "be beside", "ipa": "[bɪ'saɪd]", "meaning": "在...边上"}, {"term": "be on the corner of ...street and ...street", "ipa": "", "meaning": "在...街和...街的拐⻆角处"}, {"term": "be parallel to", "ipa": "['pærəlel]", "meaning": "平行"}, {"term": "cross", "ipa": "[krɒs]", "meaning": "交错"}, {"term": "basement", "ipa": "['beɪsm(ə)nt]", "meaning": "地下室"}, {"term": "corridor", "ipa": "['kɒrɪdɔː]", "meaning": "走廊"}, {"term": "path", "ipa": "[pɑːθ]", "meaning": "小径"}, {"term": "passage", "ipa": "['pæsɪdʒ]", "meaning": "通道"}, {"term": "signpost", "ipa": "['saɪnpəʊst]", "meaning": "路标"}, {"term": "arrow", "ipa": "['ærəʊ]", "meaning": "箭头"}, {"term": "elevator/lift", "ipa": "['elɪveɪtə] [lɪft]", "meaning": "升降梯"}, {"term": "escalator", "ipa": "['eskəleɪtə]", "meaning": "滚梯"}]}, {"part": "Survival English", "section": "pedestrian crossing/zebra crossing", "items": [{"term": "pelican crossing", "ipa": "['pelɪk(ə)n]", "meaning": "交通指挥灯由行人控制的人行横道"}, {"term": "pavement/sidewalk", "ipa": "['peɪvm(ə)nt] ['saɪdwɔːk]", "meaning": "人行便道"}, {"term": "overpass", "ipa": "['əʊvəpɑːs]", "meaning": "过街天桥"}, {"term": "underpass", "ipa": "['ʌndəpɑːs]", "meaning": "地下通道"}, {"term": "clover-leaf", "ipa": "['kləʊvə liːf]", "meaning": "立交桥"}, {"term": "street (st.)", "ipa": "[striːt]", "meaning": "街道"}, {"term": "lane", "ipa": "[leɪn]", "meaning": "小巷"}, {"term": "boulevard", "ipa": "['buːləvɑːd]", "meaning": "林荫道"}, {"term": "be far from", "ipa": "[fɑː]", "meaning": "距离...很远"}, {"term": "be nearby", "ipa": "['nɪəbaɪ]", "meaning": "距离...很近"}, {"term": "go straight across/to/through", "ipa": "[streɪt]", "meaning": "径直走过/向/过"}, {"term": "cross (over)", "ipa": "", "meaning": "穿过(某条街道)"}, {"term": "be next to", "ipa": "[nekst]", "meaning": "紧邻"}, {"term": "go up/ down", "ipa": "", "meaning": "向上(北)/向下(南)"}, {"term": "go back", "ipa": "", "meaning": "向回走"}, {"term": "go on/along...till", "ipa": "", "meaning": "沿... 一直走,直到..."}, {"term": "be the first from the left", "ipa": "", "meaning": "从左数第一"}, {"term": "opposite/across from", "ipa": "['ɒpəzɪt]", "meaning": "和... 相对"}, {"term": "be located behind", "ipa": "['loketɪd]", "meaning": "坐落在... 的后面"}, {"term": "be in the corner of", "ipa": "", "meaning": "在... 的⻆角落里"}, {"term": "step", "ipa": "[step]", "meaning": "台阶"}, {"term": "wheel chair access", "ipa": "[wiːl tʃeə 'ækses]", "meaning": "轮椅通道"}, {"term": "aisle", "ipa": "[aɪl]", "meaning": "过道"}, {"term": "intersection/crossroad", "ipa": "[ɪntə'sekʃ(ə)n]", "meaning": ""}, {"term": "fork on the road", "ipa": "[fɔːk]", "meaning": "分叉路口"}, {"term": "T road", "ipa": "", "meaning": "丁字路口"}, {"term": "road (rd.)", "ipa": "[rəʊd]", "meaning": "道路"}, {"term": "ground floor", "ipa": "[graʊnd flɔː]", "meaning": "首层"}, {"term": "wing", "ipa": "[wɪŋ]", "meaning": "配楼/ 建筑的一部分"}, {"term": "annex", "ipa": "[ə'neks]", "meaning": "配楼/ 附属建筑"}, {"term": "twin building", "ipa": "[twɪn 'bɪldɪŋ]", "meaning": "相同建筑"}, {"term": "landmark", "ipa": "['læn(d)mɑːk]", "meaning": "标志性建筑"}]}, {"part": "Survival English", "section": "Countries & Cities", "items": [{"term": "Britain / England / UK", "ipa": "", "meaning": "英国"}, {"term": "Birmingham", "ipa": "['bə:miŋəm]", "meaning": "伯明翰"}, {"term": "Edinburgh", "ipa": "['edinbərə]", "meaning": "爱丁堡"}, {"term": "England", "ipa": "['iŋɡlənd]", "meaning": "英格兰"}, {"term": "London", "ipa": "['lʌndən]", "meaning": "伦敦"}, {"term": "Manchester", "ipa": "['mæntʃɪstə]", "meaning": "曼彻斯特"}, {"term": "Scotland", "ipa": "['skɔtlənd]", "meaning": "苏格兰"}, {"term": "Sheffield", "ipa": "['ʃefi:ld]", "meaning": "谢菲尔德"}, {"term": "Wales", "ipa": "[weilz]", "meaning": "威尔士"}, {"term": "The United States Of America", "ipa": "[jʊ'naɪtɪd]", "meaning": ""}, {"term": "USA", "ipa": "[steɪts]", "meaning": ""}, {"term": "Los Angeles", "ipa": "[lɔ:s] ['ændʒələs]", "meaning": "洛杉矶"}, {"term": "New York", "ipa": "[njuː] [jɔːk]", "meaning": "纽约"}, {"term": "Chicago", "ipa": "[ʃi'kɑ:ɡəu]", "meaning": "芝加哥"}, {"term": "San Francisco", "ipa": "[sa:n] [fræn'siskəu]", "meaning": "旧金山"}, {"term": "Washington D.C", "ipa": "['wɔʃiŋtən]", "meaning": "华盛顿"}, {"term": "Australia", "ipa": "[ɒ'streɪlɪə]", "meaning": "澳大利亚"}, {"term": "Adelaide", "ipa": "['ædəleid]", "meaning": "阿德莱德"}, {"term": "Brisbane", "ipa": "['brizbən]", "meaning": "布里斯班"}, {"term": "Canberra", "ipa": "['kænbərə]", "meaning": "堪培拉"}, {"term": "Melbourne", "ipa": "['melbən]", "meaning": "墨尔本"}, {"term": "Perth", "ipa": "[pə:θ]", "meaning": "珀斯"}, {"term": "Queensland", "ipa": "['kwi:nzlænd; -lənd]", "meaning": "昆士兰州"}, {"term": "Sydney", "ipa": "['sidni]", "meaning": "悉尼"}, {"term": "New Zealand", "ipa": "[njuː] ['zi:lənd]", "meaning": "新⻄西兰"}, {"term": "Auckland", "ipa": "['ɔ:klənd]", "meaning": "奥克兰"}, {"term": "Christchurch", "ipa": "['kraisttʃə:tʃ]", "meaning": "基督城"}, {"term": "Wellington", "ipa": "['welɪŋtən]", "meaning": "惠灵顿"}, {"term": "Canada", "ipa": "['kænədə]", "meaning": "加拿大"}, {"term": "British Columbia", "ipa": "['brɪtɪʃ] [kə'lʌmbiə]", "meaning": "不列颠哥伦比亚省"}, {"term": "Montreal", "ipa": "[,mɔntri'ɔ:l]", "meaning": "蒙特利尔"}, {"term": "Ontario", "ipa": "[ɔn'tεəriəu]", "meaning": "安大略省"}, {"term": "Ottawa", "ipa": "['ɔtəwə]", "meaning": "渥太华"}, {"term": "Quebec", "ipa": "[kwi'bek; kə-]", "meaning": "魁北克省"}, {"term": "Toronto", "ipa": "[tə'rɔntəu]", "meaning": "多伦多"}, {"term": "Vancouver", "ipa": "[væn'ku:və]", "meaning": "温哥华"}]}, {"part": "Survival English", "section": "Seasons & Dates", "items": [{"term": "Season", "ipa": "", "meaning": "季节"}, {"term": "Spring", "ipa": "[sprɪŋ]", "meaning": "春季"}, {"term": "Summer", "ipa": "['sʌmə]", "meaning": "夏季"}, {"term": "Autumn", "ipa": "['ɔːtəm]", "meaning": "秋季"}, {"term": "Winter", "ipa": "['wɪntə]", "meaning": "冬季"}, {"term": "Month", "ipa": "", "meaning": "月份"}, {"term": "January", "ipa": "['dʒænjʊ(ə)rɪ]", "meaning": "一月"}, {"term": "February", "ipa": "['febrʊərɪ]", "meaning": "二月"}, {"term": "March", "ipa": "[mɑ:tʃ]", "meaning": "三月"}, {"term": "April", "ipa": "['eiprəl]", "meaning": "四月"}, {"term": "May", "ipa": "[meɪ]", "meaning": "五月"}, {"term": "June", "ipa": "[dʒu:n]", "meaning": "六月"}, {"term": "July", "ipa": "[dʒʊˈlaɪ]", "meaning": "七月"}, {"term": "August", "ipa": "[ɔː'gʌst]", "meaning": "八月"}, {"term": "September", "ipa": "[sep'tembə]", "meaning": "九月"}, {"term": "October", "ipa": "[ɔk'təubə]", "meaning": "十月"}, {"term": "November", "ipa": "[nə(ʊ)'vembə]", "meaning": "十一月"}, {"term": "December", "ipa": "[dɪ'sembə]", "meaning": "十二月"}, {"term": "Week", "ipa": "", "meaning": "星期"}, {"term": "Monday", "ipa": "['mʌndi]", "meaning": "星期一"}, {"term": "Tuesday", "ipa": "['tjuːzdeɪ]", "meaning": "星期二"}, {"term": "Wednesday", "ipa": "['wenzdeɪ]", "meaning": "星期三"}, {"term": "Thursday", "ipa": "['θɜːzdeɪ]", "meaning": "星期四"}, {"term": "Friday", "ipa": "['fraidei]", "meaning": "星期五"}, {"term": "Saturday", "ipa": "['sætədei]", "meaning": "星期六"}, {"term": "Sunday", "ipa": "['sʌndei]", "meaning": "星期天"}, {"term": "weekday", "ipa": "['wiːkdeɪ]", "meaning": "工作日"}, {"term": "weekend", "ipa": "[wiːk'end]", "meaning": "周末"}]}];
+const TOTAL = DATA.reduce((n,s)=>n+s.items.length,0);
+const storageKeyFav = 'ielts_vocab_favorites_v2';
+const storageKeyLearned = 'ielts_vocab_learned_v2';
+const uiStateKey = 'ielts_vocab_ui_v3';
+const mistakesKey = 'ielts_vocab_mistakes_v3';
+
+const content = document.getElementById('content');
+const sidebar = document.getElementById('sidebar');
+const searchInput = document.getElementById('searchInput');
+const partSelect = document.getElementById('partSelect');
+const sectionSelect = document.getElementById('sectionSelect');
+const viewSelect = document.getElementById('viewSelect');
+const accentSelect = document.getElementById('accentSelect');
+const repeatInput = document.getElementById('repeatInput');
+const quizPanel = document.getElementById('quizPanel');
+const mistakeBookPanel = document.getElementById('mistakeBookPanel');
+const overallProgressFill = document.getElementById('overallProgressFill');
+const overallProgressText = document.getElementById('overallProgressText');
+const toggleCnBtn = document.getElementById('toggleCnBtn');
+const toggleIpaBtn = document.getElementById('toggleIpaBtn');
+const statVisible = document.getElementById('statVisible');
+const statFav = document.getElementById('statFav');
+const statLearned = document.getElementById('statLearned');
+const playingBar = document.getElementById('playingBar');
+const playingText = document.getElementById('playingText');
+const progressInner = document.getElementById('progressInner');
+
+const esc = s => String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+const slugify = str => String(str).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+let favorites = new Set(JSON.parse(localStorage.getItem(storageKeyFav) || '[]'));
+let learned = new Set(JSON.parse(localStorage.getItem(storageKeyLearned) || '[]'));
+let mistakes = JSON.parse(localStorage.getItem(mistakesKey) || '{}');
+let uiState = JSON.parse(localStorage.getItem(uiStateKey) || '{"hideCn":false,"hideIpa":false,"accent":"en-US","repeatCount":1}');
+let playQueue = [];
+let playIndex = -1;
+let currentUtterance = null;
+
+function itemId(sec, item) {
+  return `${sec.part}|||${sec.section}|||${item.term}`;
+}
+
+function saveState() {
+  localStorage.setItem(storageKeyFav, JSON.stringify([...favorites]));
+  localStorage.setItem(storageKeyLearned, JSON.stringify([...learned]));
+  localStorage.setItem(uiStateKey, JSON.stringify(uiState));
+  localStorage.setItem(mistakesKey, JSON.stringify(mistakes));
+}
+
+function updateStats(visibleCount) {
+  statVisible.textContent = visibleCount;
+  statFav.textContent = favorites.size;
+  statLearned.textContent = learned.size;
+  const learnedCount = learned.size;
+  const total = TOTAL || 1;
+  overallProgressFill.style.width = `${(learnedCount/total)*100}%`;
+  overallProgressText.textContent = `已学会 ${learnedCount} / ${TOTAL} · 总体进度 ${Math.round((learnedCount/total)*100)}%`;
+}
+
+function getVoice(langPref) {
+  const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  const pref = langPref || uiState.accent || 'en-US';
+  const preferredNameRegex = pref === 'en-GB'
+    ? /Google|Serena|Daniel|Arthur|Ryan|Sonia|Libby|Mia/i
+    : /Google|Samantha|Jenny|Aria|Emma|Eric|Guy|Ivy|Joanna|Matthew|Michelle/i;
+  return voices.find(v => new RegExp(pref.replace('-', '[-_]'), 'i').test(v.lang) && preferredNameRegex.test(v.name))
+    || voices.find(v => new RegExp(pref.replace('-', '[-_]'), 'i').test(v.lang))
+    || voices.find(v => /^en/i.test(v.lang))
+    || null;
+}
+
+function speak(text, onend, timesLeft) {
+  if(!('speechSynthesis' in window)) {
+    alert('当前浏览器不支持语音朗读。');
+    return;
+  }
+  const remain = Number.isFinite(timesLeft) ? timesLeft : Math.max(1, parseInt(uiState.repeatCount || 1, 10));
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = uiState.accent || 'en-US';
+  u.rate = .95;
+  u.pitch = 1;
+  const voice = getVoice(uiState.accent);
+  if(voice) u.voice = voice;
+  u.onend = () => {
+    if(remain > 1) {
+      setTimeout(() => speak(text, onend, remain - 1), 120);
+    } else if(onend) {
+      onend();
+    }
+  };
+  currentUtterance = u;
+  speechSynthesis.speak(u);
+}
+
+function playDing() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1318.5, now);
+    osc.frequency.exponentialRampToValueAtTime(1760, now + 0.08);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.18, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.24);
+  } catch (e) {}
+}
+
+function stopPlayback() {
+  playQueue = [];
+  playIndex = -1;
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  playingBar.classList.remove('show');
+  progressInner.style.width = '0%';
+  playingText.textContent = '未播放';
+}
+
+function startQueue(terms) {
+  if(!terms.length) {
+    alert('当前筛选下没有可播放的词条。');
+    return;
+  }
+  playQueue = terms.slice();
+  playIndex = 0;
+  playingBar.classList.add('show');
+  playNext();
+}
+
+function playNext() {
+  if(playIndex < 0 || playIndex >= playQueue.length) {
+    stopPlayback();
+    return;
+  }
+  const item = playQueue[playIndex];
+  playingText.textContent = `播放中：${item.term}`;
+  progressInner.style.width = `${((playIndex+1)/playQueue.length)*100}%`;
+  speak(item.term, () => {
+    playIndex += 1;
+    setTimeout(playNext, 180);
+  });
+}
+
+function cleanSectionName(name) {
+  return String(name || '').replace(/[:：]\s*$/,'').trim();
+}
+
+const FULL = DATA.map(section => ({
+  ...section,
+  displaySection: cleanSectionName(section.section),
+  items: section.items.map(item => ({
+    ...item,
+    key: itemId(section, item),
+    searchText: `${item.term} ${item.ipa||''} ${item.meaning||''}`.toLowerCase()
+  }))
+}));
+
+const ALL_ITEMS = FULL.flatMap(sec => sec.items.map(item => ({...item, part: sec.part, section: sec.section, displaySection: sec.displaySection})));
+function findItemByKey(key) {
+  return ALL_ITEMS.find(x => x.key === key);
+}
+function addMistake(item) {
+  if (!item || !item.key) return;
+  mistakes[item.key] = {
+    term: item.term,
+    ipa: item.ipa || '',
+    meaning: item.meaning || '',
+    part: item.part,
+    section: item.displaySection || item.section,
+    wrongCount: (mistakes[item.key]?.wrongCount || 0) + 1,
+    updatedAt: Date.now()
+  };
+  saveState();
+}
+function removeMistake(key) {
+  delete mistakes[key];
+  saveState();
+}
+
+function getFilteredData() {
+  const q = searchInput.value.trim().toLowerCase();
+  const part = partSelect.value;
+  const sectionName = sectionSelect.value;
+  const mode = viewSelect.value;
+  return FULL
+    .filter(sec => (part === 'all' ? true : sec.part === part) && (sectionName === 'all' ? true : sec.section === sectionName))
+    .map(sec => ({
+      ...sec,
+      items: sec.items.filter(item => {
+        const passSearch = !q || item.searchText.includes(q);
+        const passMode = mode === 'all' ? true :
+          mode === 'favorites' ? favorites.has(item.key) :
+          mode === 'learned' ? learned.has(item.key) :
+          !learned.has(item.key);
+        return passSearch && passMode;
+      })
+    }))
+    .filter(sec => sec.items.length);
+}
+
+function renderSidebar(data) {
+  const byPart = data.reduce((a,c) => {
+    const k = c.part || 'Other';
+    (a[k] ??= []).push(c);
+    return a;
+  }, {});
+  sidebar.innerHTML = '<h3>目录导航</h3>' +
+    Object.entries(byPart).map(([part, sections]) => `
+      <div class="navGroup">
+        <div class="navPart">${esc(part)}</div>
+        ${sections.map(sec => `<a class="navLink" href="#${slugify(sec.part+'-'+(sec.displaySection || sec.section))}">${esc(sec.section)}</a>`).join('')}
+      </div>
+    `).join('');
+}
+
+function renderContent() {
+  const visible = getFilteredData();
+  const count = visible.reduce((s,sec)=>s+sec.items.length,0);
+  updateStats(count);
+  document.body.classList.toggle('hiddenCn', !!uiState.hideCn);
+  document.body.classList.toggle('hiddenIpa', !!uiState.hideIpa);
+  toggleCnBtn.textContent = uiState.hideCn ? '显示中文' : '隐藏中文';
+  toggleIpaBtn.textContent = uiState.hideIpa ? '显示音标' : '隐藏音标';
+  renderSidebar(visible.length ? visible : FULL);
+
+  if(!visible.length) {
+    content.innerHTML = '<div class="panel empty">没有匹配结果，换个关键词试试。</div>';
+    return;
+  }
+
+  content.innerHTML = visible.map(sec => `
+    <section class="panel section" id="${slugify(sec.part+'-'+(sec.displaySection || sec.section))}">
+      <div class="sectionHead">
+        <div>
+          <div class="badge">${esc(sec.part)}</div>
+          <h2 class="sectionTitle">${esc(sec.displaySection || sec.section)}</h2>
+        </div>
+        <div class="sectionMeta">${sec.items.length} 条词汇 · 已学会 ${sec.items.filter(item => learned.has(item.key)).length} 条</div>
+      </div>
+      <div class="grid">
+        ${sec.items.map(item => `
+          <article class="card">
+            <div class="termRow">
+              <div>
+                <div class="term">${esc(item.term)}</div>
+                <div class="ipa">${esc(item.ipa || '')}</div>
+              </div>
+              <button class="iconBtn playBtn" type="button" aria-label="播放发音" data-term="${esc(item.term)}">🔊</button>
+            </div>
+            <div class="meaning">${esc(item.meaning || '—')}</div>
+            <div class="cardActions">
+              <button class="iconBtn favBtn ${favorites.has(item.key)?'active':''}" data-key="${esc(item.key)}" title="收藏">⭐</button>
+              <button class="iconBtn learnedBtn ${learned.has(item.key)?'active':''}" data-key="${esc(item.key)}" title="已学会">✅</button>
+              <span class="smallTag">${favorites.has(item.key)?'已收藏':'可收藏'}</span>
+              <span class="smallTag">${learned.has(item.key)?'已学会':'待学习'}</span>
+            </div>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+
+  content.querySelectorAll('.playBtn').forEach(btn => btn.addEventListener('click', () => speak(btn.dataset.term)));
+  content.querySelectorAll('.favBtn').forEach(btn => btn.addEventListener('click', () => {
+    const key = btn.dataset.key;
+    if(favorites.has(key)) favorites.delete(key); else favorites.add(key);
+    saveState(); renderContent();
+  }));
+  content.querySelectorAll('.learnedBtn').forEach(btn => btn.addEventListener('click', () => {
+    const key = btn.dataset.key;
+    if(learned.has(key)) learned.delete(key); else { learned.add(key); removeMistake(key); }
+    saveState(); renderContent();
+  }));
+}
+
+function getVisibleTerms() {
+  return getFilteredData().flatMap(sec => sec.items);
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function openQuiz() {
+  const pool = getVisibleTerms().filter(item => !learned.has(item.key));
+  if(pool.length < 4) {
+    alert('当前筛选下词条少于 4 个，无法开始随机练习。');
+    return;
+  }
+  mistakeBookPanel.style.display = 'none';
+  quizPanel.style.display = 'block';
+  const answer = pool[Math.floor(Math.random()*pool.length)];
+  const others = shuffle(pool.filter(x => x.key !== answer.key)).slice(0,3);
+  const options = shuffle([answer, ...others]);
+  quizPanel.innerHTML = `
+    <div class="quizCard">
+      <div>
+        <div class="badge">随机抽词练习</div>
+        <h3>这个单词是什么意思？</h3>
+      </div>
+      <div class="quizWord">${esc(answer.term)}</div>
+      <div class="muted">${esc(answer.ipa || '')}</div>
+      <div class="actionRow">
+        <button class="btn primary" id="quizPlay">播放发音</button>
+        <button class="btn" id="quizNext">换一个</button>
+        <button class="btn" id="quizClose">关闭练习</button>
+      </div>
+      <div class="quizOptions">
+        ${options.map(opt => `<button class="btn quizOption" data-key="${esc(opt.key)}" data-correct="${opt.key===answer.key?'1':'0'}" data-answer="${esc(answer.meaning||'—')}">${esc(opt.meaning || '—')}</button>`).join('')}
+      </div>
+      <div id="quizResult" class="muted"></div>
+    </div>
+  `;
+  document.getElementById('quizPlay').onclick = () => speak(answer.term);
+  document.getElementById('quizNext').onclick = openQuiz;
+  document.getElementById('quizClose').onclick = () => quizPanel.style.display = 'none';
+  setTimeout(() => speak(answer.term), 120);
+  quizPanel.querySelectorAll('.quizOption').forEach(btn => btn.addEventListener('click', () => {
+    const ok = btn.dataset.correct === '1';
+    const result = document.getElementById('quizResult');
+    if(ok) {
+      result.innerHTML = '<span class="resultGood">答对了。</span>';
+      playDing();
+    } else {
+      result.innerHTML = `<span class="resultBad">答错了，正确答案：${btn.dataset.answer}</span>`;
+      addMistake(answer);
+    }
+  }));
+  quizPanel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function openDictationMode() {
+  const pool = getVisibleTerms().filter(item => !learned.has(item.key));
+  if(!pool.length) {
+    alert('当前筛选下没有可用于听写的词条。');
+    return;
+  }
+  mistakeBookPanel.style.display = 'none';
+  quizPanel.style.display = 'block';
+  const answer = pool[Math.floor(Math.random()*pool.length)];
+  quizPanel.innerHTML = `
+    <div class="quizCard">
+      <div>
+        <div class="badge">听写模式</div>
+        <h3>听发音，拼写单词</h3>
+      </div>
+      <div class="muted">可先听发音，再输入你听到的单词。</div>
+      <div class="actionRow">
+        <button class="btn primary" id="dictationPlay">播放发音</button>
+        <button class="btn" id="dictationReplay">重播</button>
+        
+        <button class="btn" id="dictationClose">关闭</button>
+      </div>
+      <input id="dictationInput" class="dictationInput" placeholder="请输入你听到的英文单词" autocomplete="off" />
+      <div class="actionRow">
+        <button class="btn warn" id="dictationCheck" style="background:#ffd66e;color:#000;font-weight:700">提交答案</button>
+        <button class="btn primary" id="dictationNext" style="background:#7cc4ff;color:#000;font-weight:700">换一个</button>
+        <button class="btn" id="dictationShow">显示答案</button>
+      </div>
+      <div id="dictationResult" class="muted"></div>
+    </div>
+  `;
+  const play = () => speak(answer.term);
+  document.getElementById('dictationPlay').onclick = play;
+  document.getElementById('dictationReplay').onclick = play;
+  document.getElementById('dictationNext').onclick = openDictationMode;
+  document.getElementById('dictationClose').onclick = () => quizPanel.style.display = 'none';
+  document.getElementById('dictationShow').onclick = () => {
+    document.getElementById('dictationResult').innerHTML = `答案：<span class="resultGood">${esc(answer.term)}</span> <span class="muted">${esc(answer.ipa||'')}</span> · ${esc(answer.meaning||'—')}`;
+  };
+  document.getElementById('dictationCheck').onclick = () => {
+    const user = (document.getElementById('dictationInput').value || '').trim().toLowerCase();
+    const target = (answer.term || '').trim().toLowerCase();
+    const result = document.getElementById('dictationResult');
+    if(!user) {
+      result.innerHTML = '<span class="resultBad">请先输入答案。</span>';
+      return;
+    }
+    if(user === target) {
+      result.innerHTML = `答对了：<span class="resultGood">${esc(answer.term)}</span> · ${esc(answer.meaning||'—')}`;
+      learned.add(answer.key);
+      removeMistake(answer.key);
+      saveState();
+      renderContent();
+      playDing();
+    } else {
+      result.innerHTML = `答错了。你的答案：<span class="resultBad">${esc(user)}</span>；正确答案：<span class="resultGood">${esc(answer.term)}</span> <span class="muted">${esc(answer.ipa||'')}</span> · ${esc(answer.meaning||'—')}`;
+      addMistake(answer);
+    }
+  };
+  setTimeout(() => { play(); document.getElementById('dictationInput').focus(); }, 120);
+  quizPanel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function openMistakeBook() {
+  quizPanel.style.display = 'none';
+  const arr = Object.entries(mistakes)
+    .map(([key, val]) => ({ key, ...val }))
+    .sort((a,b) => (b.wrongCount - a.wrongCount) || (b.updatedAt - a.updatedAt));
+  mistakeBookPanel.style.display = 'block';
+  if(!arr.length) {
+    mistakeBookPanel.innerHTML = `<div class="quizCard"><div class="badge">错题本</div><h3>当前没有错题</h3><div class="muted">你答错的题会自动收录到这里。</div></div>`;
+    mistakeBookPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+  mistakeBookPanel.innerHTML = `
+    <div class="quizCard">
+      <div class="badge">错题本</div>
+      <h3>共 ${arr.length} 条错题</h3>
+      <div class="actionRow">
+        <button class="btn primary" id="mistakeQuizBtn">只练错题</button>
+        <button class="btn" id="mistakeClearBtn">清空错题本</button>
+      </div>
+      <div class="listBlock">
+        ${arr.map(x => `
+          <div class="errorItem">
+            <div class="errorTop">
+              <div>
+                <div class="errorWord">${esc(x.term)}</div>
+                <div class="muted">${esc(x.ipa||'')} · ${esc(x.meaning||'—')}</div>
+                <div class="muted">${esc(x.part||'')} / ${esc(x.section||'')}</div>
+              </div>
+              <div class="actionRow">
+                <span class="pill">错误 ${x.wrongCount} 次</span>
+                <button class="iconBtn mistakePlayBtn" data-term="${esc(x.term)}">🔊</button>
+                <button class="btn mistakeRemoveBtn" data-key="${esc(x.key)}">移除</button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('mistakeClearBtn').onclick = () => {
+    if(confirm('确定清空错题本吗？')) { mistakes = {}; saveState(); openMistakeBook(); renderContent(); }
+  };
+  document.getElementById('mistakeQuizBtn').onclick = () => openMistakeQuiz();
+  mistakeBookPanel.querySelectorAll('.mistakePlayBtn').forEach(btn => btn.onclick = () => speak(btn.dataset.term));
+  mistakeBookPanel.querySelectorAll('.mistakeRemoveBtn').forEach(btn => btn.onclick = () => {
+    removeMistake(btn.dataset.key); openMistakeBook(); renderContent();
+  });
+  mistakeBookPanel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function openMistakeQuiz() {
+  const pool = Object.keys(mistakes).map(findItemByKey).filter(Boolean);
+  if(pool.length < 4) {
+    alert('错题少于 4 条，暂时无法进行错题选择题练习。');
+    return;
+  }
+  quizPanel.style.display = 'block';
+  mistakeBookPanel.style.display = 'none';
+  const answer = pool[Math.floor(Math.random()*pool.length)];
+  const others = shuffle(ALL_ITEMS.filter(x => x.key !== answer.key)).slice(0,3);
+  const options = shuffle([answer, ...others]);
+  quizPanel.innerHTML = `
+    <div class="quizCard">
+      <div>
+        <div class="badge">错题专项练习</div>
+        <h3>这个单词是什么意思？</h3>
+      </div>
+      <div class="quizWord">${esc(answer.term)}</div>
+      <div class="muted">${esc(answer.ipa || '')}</div>
+      <div class="actionRow">
+        <button class="btn primary" id="mqPlay">播放发音</button>
+        <button class="btn" id="mqNext">换一个</button>
+        <button class="btn" id="mqBack">返回错题本</button>
+      </div>
+      <div class="quizOptions">
+        ${options.map(opt => `<button class="btn quizOption" data-correct="${opt.key===answer.key?'1':'0'}">${esc(opt.meaning || '—')}</button>`).join('')}
+      </div>
+      <div id="mqResult" class="muted"></div>
+    </div>
+  `;
+  document.getElementById('mqPlay').onclick = () => speak(answer.term);
+  document.getElementById('mqNext').onclick = openMistakeQuiz;
+  document.getElementById('mqBack').onclick = openMistakeBook;
+  setTimeout(() => speak(answer.term), 120);
+  quizPanel.querySelectorAll('.quizOption').forEach(btn => btn.onclick = () => {
+    const ok = btn.dataset.correct === '1';
+    const result = document.getElementById('mqResult');
+    if(ok) {
+      result.innerHTML = '<span class="resultGood">答对了。</span>';
+      playDing();
+      removeMistake(answer.key);
+      renderContent();
+    } else {
+      result.innerHTML = `<span class="resultBad">答错了，正确答案：${esc(answer.meaning||'—')}</span>`;
+      addMistake(answer);
+    }
+  });
+  quizPanel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+const parts = [...new Set(DATA.map(x => x.part).filter(Boolean))];
+partSelect.innerHTML += parts.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('');
+
+function populateSectionSelect() {
+  const currentPart = partSelect.value;
+  const sections = [...new Set(FULL
+    .filter(sec => currentPart === 'all' ? true : sec.part === currentPart)
+    .map(sec => sec.section))];
+  const currentValue = sectionSelect.value;
+  sectionSelect.innerHTML = '<option value="all">全部子模块</option>' + sections.map(sec => {
+    const display = cleanSectionName(sec);
+    return `<option value="${esc(sec)}">${esc(display)}</option>`;
+  }).join('');
+  if (sections.includes(currentValue)) sectionSelect.value = currentValue;
+}
+
+accentSelect.value = uiState.accent || 'en-US';
+repeatInput.value = uiState.repeatCount || 1;
+
+populateSectionSelect();
+
+searchInput.addEventListener('input', renderContent);
+partSelect.addEventListener('change', () => { populateSectionSelect(); renderContent(); });
+sectionSelect.addEventListener('change', renderContent);
+viewSelect.addEventListener('change', renderContent);
+accentSelect.addEventListener('change', () => { uiState.accent = accentSelect.value; saveState(); });
+repeatInput.addEventListener('change', () => {
+  let v = parseInt(repeatInput.value || '1', 10);
+  if (!Number.isFinite(v) || v < 1) v = 1;
+  if (v > 10) v = 10;
+  repeatInput.value = v;
+  uiState.repeatCount = v;
+  saveState();
+});
+toggleCnBtn.addEventListener('click', () => { uiState.hideCn = !uiState.hideCn; saveState(); renderContent(); });
+toggleIpaBtn.addEventListener('click', () => { uiState.hideIpa = !uiState.hideIpa; saveState(); renderContent(); });
+document.getElementById('playVisibleBtn').addEventListener('click', () => startQueue(getVisibleTerms()));
+document.getElementById('stopPlayBtn').addEventListener('click', stopPlayback);
+document.getElementById('randomQuizBtn').addEventListener('click', openQuiz);
+document.getElementById('dictationModeBtn').addEventListener('click', openDictationMode);
+document.getElementById('mistakeBookBtn').addEventListener('click', openMistakeBook);
+document.getElementById('clearProgressBtn').addEventListener('click', () => {
+  if(confirm('确定清空本地收藏和已学会记录吗？')) {
+    favorites = new Set(); learned = new Set(); mistakes = {}; saveState(); renderContent(); mistakeBookPanel.style.display='none'; quizPanel.style.display='none';
+  }
+});
+
+renderContent();
+if('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = () => {};
+  setTimeout(() => speechSynthesis.getVoices(), 50);
+}
+</script>
+</body>
+</html>
